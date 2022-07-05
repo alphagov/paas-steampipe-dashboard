@@ -8,14 +8,23 @@ Steampipe provides an sql layer on top of a wide range of cloud platform service
 
 # Prerequisites
 
+Assumes you are on a mac with homebrew installed with `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+
 ```
-brew install steampipe
-brew install jq
-brew install yq
-brew install cf-cli@8
-pip3 install csvkit
-pip3 install visidata
+# homebrew packages
+brew install cf-cli@8      # Cloud Foundry CLI
+brew install gawk          # GNU awk
+brew install gnu-sed       # GNU sed
+brew install jq            # JSON wrangling tool
+brew install steampipe     # make cloud apis queryable via SQL 
+brew install yq            # YAML tools
+
+# python tools
+pip3 install csvkit        # csv wrangling tools
+pip3 install visidata      # data wrangling swiss army penknife tool
 ```
+
+a GOV.UK PaaS account and access to an org and its resources
 
 # Plan
 
@@ -30,6 +39,10 @@ pip3 install visidata
   - [ ] spaces
   - [ ] apps
   - [ ] services
+
+# Usage
+
+`make login`
 
 
 
