@@ -67,7 +67,7 @@ tenants-london.csv:
 	  $(JQ) --arg region london -r '.resources[] | [.metadata.annotations.owner, $$region, .name, .guid, .created_at, .suspended] | @csv' |\
 	  $(HEADER) -a "owner,region,org,guid,created,suspended" |\
 	  $(CSVSORT) -c1,3 |\
-	  $(SED) -E '/,CAT/d;/,BACC/d;/,ACC/d;/,SMOKE/d' |\
+	  $(SED) -E '/,CAT/d;/,BACC/d;/,ACC/d;/,SMOKE/d;/,ASATS/d' |\
 	  $(TEE) $@
 
 start:
