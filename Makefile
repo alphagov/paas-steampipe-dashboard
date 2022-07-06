@@ -11,6 +11,7 @@ CSVSQL       := csvsql
 CSVSTACK     := csvstack
 CSVTOTABLE   := csvtotable
 HEADER       := ./bin/header
+IN2CSV       := in2csv 
 JQ           := jq
 RM           := rm -rfv
 SED          := gsed
@@ -52,6 +53,7 @@ login:
 logout:
 	$(CF1) logout
 	$(CF2) logout
+
 
 orgs.csv: orgs-dublin.csv orgs-london.csv
 	$(CSVSTACK) orgs-dublin.csv orgs-london.csv |\
