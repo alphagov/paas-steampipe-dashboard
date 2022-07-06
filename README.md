@@ -4,7 +4,7 @@
 
 # Overview
 
-[Steampip](https://steampipe.io) provides an sql layer on top of a [wide range of cloud platform services](https://hub.steampipe.io/plugins) that have apis. 
+[Steampipe](https://steampipe.io) provides an sql layer on top of a [wide range of cloud platform services](https://hub.steampipe.io/plugins) that have apis. 
 This dashboard uses the mechanics of steampipe to build a set of dashboards over GOV.UK PaaS.
 
 It uses the [CF CLI](https://github.com/cloudfoundry/cli) and paas credentials to access the API and list resources, 
