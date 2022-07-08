@@ -51,10 +51,10 @@ a GOV.UK PaaS account with global auditor access
   - [x] orgs
   - [x] departments
   - [x] suspended accounts
-  - [ ] list of orgs
-  - [ ] list of departments
+  - [x] list of orgs
+  - [x] list of departments
+  - [x] expiring trial accounts
   - [ ] cells
-  - [ ] trial accounts
   - [ ] billable accounts
   - [ ] spaces
   - [ ] apps
