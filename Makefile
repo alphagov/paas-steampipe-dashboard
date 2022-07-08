@@ -93,5 +93,8 @@ dependencies:
 
 	$(STEAMPIPE) plugin install aws config csv docker github kubernetes prometheus terraform zendesk 
 
+issues:
+	gh issue list
+
 hack:
 	$(CF1) oauth-token /dev/null || (open $(LOGIN1)) 
