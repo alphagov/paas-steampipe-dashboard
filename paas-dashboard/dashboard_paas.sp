@@ -1,22 +1,47 @@
-dashboard "dashboard_paas" {
+# http://localhost:9194/local.dashboard.dashboard_paas
+
+dashboard "dashboard-paas" {
   title = "GOV.UK PaaS dashboard"
 
-
-  card {
-    type = "default"
-    label = "org count"
-    sql = "select count(*) as org_count from orgs"
-    width = "2"
-    href="https://cloud.service.gov.uk"
+ text {
+    width = 4
+    type = "markdown"
+    value = <<-EOM
+show key measures of the platform on a steampipe dashboard (see [github](https://github.com/pauldougan/paas-dashboard) for code)
+EOM
   }
 
   card {
-    type = "default"
+    type = "ok"
+    icon = "hashtag"
+    label = "organisation count"
+    sql = "select count(*) as organisations from orgs"
+    width = "2"
+  }
+
+  card {
+    type = "ok"
+    icon = "hashtag"
     label = "department count"
-    sql = "select count(distinct owner) as department_count from orgs"
+    sql = "select count(distinct owner) as departments from orgs"
     width = "2"
-    href="https://cloud.service.gov.uk"
   }
 
+ card {
+    type = "ok"
+    icon = "hashtag"
+    label = "suspended org count"
+    sql = "select count(org) as suspended  from orgs where suspended = 'True'"
+    width = "2"
+  }
+ 
+ card {
+    type = "ok"
+    icon = "hashtag"
+    label = "expiring trial orgs"
+    sql = "select count(*) as expiring_soon from orgs where ((created::date+90) - current_date) > 0"
+    width = "2"
+    href = "paas-dashboard.dashboard.expiry-report"
+  }
 
 }
