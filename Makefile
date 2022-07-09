@@ -10,6 +10,8 @@ CSVSORT      := csvsort
 CSVSQL       := csvsql
 CSVSTACK     := csvstack
 CSVTOTABLE   := csvtotable
+GH           := gh
+GLOW         := glow
 HEADER       := ./bin/header
 IN2CSV       := in2csv 
 JQ           := jq
@@ -26,6 +28,10 @@ CF1           := CF_HOME=$(PAAS_ENVDIR)/dublin $(CF)
 CF2           := CF_HOME=$(PAAS_ENVDIR)/london $(CF)
 LOGIN1        := https://login.$(DUBLIN_DOMAIN)/passcode
 LOGIN2        := https://login.$(LONDON_DOMAIN)/passcode
+
+status: README.md
+	@$(GLOW) $<
+	@$(GH) issue list
 
 all: login extract-data dashboard
 
@@ -86,15 +92,17 @@ query:
 dependencies:
 	type cf || brew install cf-cli@8           # Cloud Foundry CLI
 	type gawk || brew install gawk             # GNU awk	
+	type gh || brew install gh.                # github cli
+	type glow || brew install glow             # glow cli for handling markdown
 	type gsed || brew install gnu-sed          # GNU sed
 	type jq || brew install jq.                # JSON wrangling tool
 	type steampipe || brew install steampipe   # make cloud apis queryable via SQL 
 	type yq || brew install yq                 # YAML tools
 
-	$(STEAMPIPE) plugin install aws config csv docker github kubernetes prometheus terraform zendesk 
+	$(STEAMPIPE) plugin install aws config csv docker github kubernetes net prometheus terraform zendesk 
 
 issues:
-	gh issue list
+	$(GH) issue list
 
 hack:
 	$(CF1) oauth-token /dev/null || (open $(LOGIN1)) 
