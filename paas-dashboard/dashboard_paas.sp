@@ -7,16 +7,15 @@ dashboard "dashboard-paas" {
     width = 4
     type = "markdown"
     value = <<-EOM
-show key measures of the platform on a steampipe dashboard (see [github](https://github.com/pauldougan/paas-dashboard) for code or the [kanban board](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1?add_cards_query=is%3Aopen))
+show key measures of the platform on a steampipe dashboard (see [github](https://github.com/pauldougan/paas-dashboard) for code or the [kanban](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1?add_cards_query=is%3Aopen))
 EOM
   }
 
   card {
     type = "ok"
     icon = "hashtag"
-    label = "organisation count"
-    sql = "select count(*) as organisations from orgs"
-    width = "2"
+
+    href = "${dashboard.orgs-report.url_path}" 
   }
 
   card {
@@ -25,6 +24,7 @@ EOM
     label = "department count"
     sql = "select count(distinct owner) as departments from orgs"
     width = "2"
+    href = "${dashboard.departments-report.url_path}"
   }
 
  card {
@@ -37,11 +37,13 @@ EOM
  
  card {
     type = "ok"
-    icon = "hashtag"
+    icon = "hashtag"    label = "organisation count"
+    sql = "select count(*) as organisations from orgs"
+    width = "2"
     label = "expiring trial orgs"
     sql = "select count(*) as expiring_soon from orgs where ((created::date+90) - current_date) > 0"
     width = "2"
-    href = "paas-dashboard.dashboard.expiry-report"
+  href = "${dashboard.expiry-report.url_path}"
   }
 
 }
