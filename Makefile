@@ -96,7 +96,7 @@ query:
 dependencies:
 	type cf || brew install cf-cli@8           # Cloud Foundry CLI
 	type gawk || brew install gawk             # GNU awk	
-	type gh || brew install gh.                # github cli
+	type gh || brew install gh                # github cli
 	type glow || brew install glow             # glow cli for handling markdown
 	type gsed || brew install gnu-sed          # GNU sed
 	type jq || brew install jq.                # JSON wrangling tool
