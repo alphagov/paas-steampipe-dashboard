@@ -6,11 +6,11 @@ dashboard "orgs-report" {
   width = 12
   sql   = <<-EOQ
 select
-	region,org,owner,created
+	region,org_name,owner,created
 from orgs 
 order by 
 	region, 
-	org
+	org_name
 EOQ
   }
 
