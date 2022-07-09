@@ -22,9 +22,11 @@ Assumes you are on a mac with homebrew installed with `/bin/bash -c "$(curl -fsS
 # homebrew packages
 brew install cf-cli@8      # Cloud Foundry CLI
 brew install gawk          # GNU awk
+brew install gh            # GitHub CLI
+brew install glow          # Glow CLI for markdown 
 brew install gnu-sed       # GNU sed
 brew install jq            # JSON wrangling tool
-brew install steampipe     # make cloud apis queryable via SQL 
+brew install steampipe     # make cloud apis queryble via SQL 
 brew install yq            # YAML tools
 
 # python tools
@@ -33,33 +35,6 @@ pip3 install visidata      # data wrangling swiss army penknife tool
 ```
 
 a GOV.UK PaaS account with global auditor access
-
-# Plan
-- [ ] access high level inventory data for the platform as csv format compatible with the steampipe csv plugin
-  - [x] orgs (including departments)
-  - [ ] buildpacks
-  - [ ] cells
-  - [ ] apps
-  - [ ] spaces
-  - [ ] services 
-  - [ ] routes
-  - [ ] logdrains
-  - [ ] cell count
-- [ ] initial dashboard of high level counts
-  - [x] add steampipe dependencies aws config csv github terraform zendesk docker kubernetes prometheus
-  - [ ] configuring the csv plugin
-  - [x] orgs
-  - [x] departments
-  - [x] suspended accounts
-  - [x] list of orgs
-  - [x] list of departments
-  - [x] expiring trial accounts
-  - [ ] cells
-  - [ ] billable accounts
-  - [ ] spaces
-  - [ ] apps
-  - [ ] services
-
 
 # Usage
 
