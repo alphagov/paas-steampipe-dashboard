@@ -15,6 +15,7 @@ GLOW         := glow
 HEADER       := ./bin/header
 IN2CSV       := in2csv 
 JQ           := jq
+OPEN         := open
 RM           := rm -rfv
 SED          := gsed
 STEAMPIPE    := steampipe
@@ -32,6 +33,9 @@ LOGIN2        := https://login.$(LONDON_DOMAIN)/passcode
 status: README.md
 	@$(GLOW) $<
 	@$(GH) issue list
+
+kanban:
+	$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard/projects/1
 
 all: login extract-data dashboard
 
