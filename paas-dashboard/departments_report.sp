@@ -6,7 +6,7 @@ dashboard "departments-report" {
   width = 12
   sql   = <<-EOQ
 select
-	distinct owner
+	distinct  owner
 from orgs 
 order by 
 	owner

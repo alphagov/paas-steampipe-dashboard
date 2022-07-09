@@ -1,5 +1,5 @@
 select 
-	region, org, owner, created, suspended
+	region, org_name, owner, created, suspended
 from 
 	orgs
 order by 

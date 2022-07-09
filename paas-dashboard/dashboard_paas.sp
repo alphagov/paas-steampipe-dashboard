@@ -31,7 +31,7 @@ EOM
     type = "ok"
     icon = "hashtag"
     label = "suspended org count"
-    sql = "select count(org) as suspended  from orgs where suspended = 'True'"
+    sql = "select count(*) as suspended  from orgs where suspended = 'True'"
     width = "2"
   }
  

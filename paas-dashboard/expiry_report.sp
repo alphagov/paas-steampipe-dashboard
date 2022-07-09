@@ -11,7 +11,7 @@ select
 	created::date, 
 	created::date + 90 as trial_expiry_date,	
 	(created::date + 90) - CURRENT_DATE as days_to_expiry,
-	org, 
+	org_name, 
 	owner 
 from orgs 
 where 
