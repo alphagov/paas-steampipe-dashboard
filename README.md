@@ -23,10 +23,11 @@ The dashboards pull data from the underlying csv files using sql and render the 
 
 # How it works
 
-1. using GNU make
-2. logs into Cloud Foundry using the CF CLI `cf login --sso`
-3. extracts data as csv format from the CF API `cf curl` converting JSON into CSV using csvkit
-4. launches steampipe dashboard to render results locally accessing data from plugins, running SQL queries against the normalised data using postgresql
+using GNU make
+
+1. logs into Cloud Foundry using the CF CLI `cf login --sso`
+2. extracts data as csv format from the CF API `cf curl` converting JSON into CSV using csvkit
+3. launches steampipe dashboard to render results locally accessing data from plugins, running SQL queries against the normalised data using postgresql
 
 
 # Prerequisites
