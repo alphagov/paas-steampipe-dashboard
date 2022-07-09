@@ -17,6 +17,7 @@ EOM
     label = "organisation count"
     sql = "select count(*) as organisations from orgs"
     width = "2"
+    href = "${dashboard.orgs-report.url_path}" 
   }
 
   card {
