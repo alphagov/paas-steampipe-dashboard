@@ -34,9 +34,11 @@ pip3 install csvkit        # csv wrangling tools
 pip3 install visidata      # data wrangling swiss army penknife tool
 ```
 
-a GOV.UK PaaS account with global auditor access
+a [GOV.UK PaaS account](https://cloud.service.gov.uk) with [global auditor](https://docs.cloudfoundry.org/concepts/roles.html#permissions) pwermissions.
 
 # Usage
+
+`make` to display the status of the project
 
 `make dependencies` to install all the necessary packages
 

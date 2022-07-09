@@ -7,7 +7,7 @@ dashboard "dashboard-paas" {
     width = 4
     type = "markdown"
     value = <<-EOM
-show key measures of the platform on a steampipe dashboard (see [github](https://github.com/pauldougan/paas-dashboard) for code)
+show key measures of the platform on a steampipe dashboard (see [github](https://github.com/pauldougan/paas-dashboard) for code or the [kanban board](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1?add_cards_query=is%3Aopen))
 EOM
   }
 
