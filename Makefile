@@ -94,6 +94,11 @@ query:
 	$(STEAMPIPE) query
 
 dependencies:
+	mkdir -p $(PAAS_ENVDIR)/dublin
+	mkdir -p $(PAAS_ENVDIR)/london
+	
+	pip3 install -r requirements.txt
+
 	type cf || brew install cf-cli@8           # Cloud Foundry CLI
 	type gawk || brew install gawk             # GNU awk	
 	type gh || brew install gh                # github cli
