@@ -1,3 +1,0 @@
-dashboard "dashboard_scratch" {
-  title = "Dashboard scratch area for hacking"
-}
