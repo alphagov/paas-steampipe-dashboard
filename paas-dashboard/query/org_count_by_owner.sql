@@ -1,5 +1,6 @@
 select 
-	owner, count(*) as org_count 
+	owner,
+	count(*) as org_count 
 from 
 	orgs
 group by 
