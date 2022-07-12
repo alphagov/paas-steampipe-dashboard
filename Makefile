@@ -56,9 +56,14 @@ login:
 	open $(LOGIN1)
 	$(CF1) api https://api.cloud.service.gov.uk
 	$(CF1) login --sso 
+
 	open $(LOGIN2)
 	$(CF2) api https://api.london.cloud.service.gov.uk
 	$(CF2) login --sso 
+
+	open $(LOGIN2)
+	$(CF2) api https://api.london.cloud.service.gov.uk
+	$(CF) login --sso 
 		
 logout:
 	$(CF1) logout
