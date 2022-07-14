@@ -1,26 +1,29 @@
 SHELL            := /usr/local/bin/bash
-
-AWK          := gawk
-CF           := cf
-CSVCUT       := csvcut
-CSVFORMAT    := csvformat 
-CSVGREP      := csvgrep
-CSVJSON      := csvjson
-CSVSORT      := csvsort
-CSVSQL       := csvsql
-CSVSTACK     := csvstack
-CSVTOTABLE   := csvtotable
-GH           := gh
-GLOW         := glow
-HEADER       := ./bin/header
-IN2CSV       := in2csv 
-JQ           := jq
-OPEN         := open
-RM           := rm -rfv
-SED          := gsed
-STEAMPIPE    := steampipe
-TEE          := tee
-VISIDATA     := vd
+PAAS_CF_REPO     := https://raw.githubusercontent.com/alphagov/paas-cf
+AWK              := gawk
+CF               := cf
+CSVCUT           := csvcut
+CSVFORMAT        := csvformat 
+CSVGREP          := csvgrep
+CSVJSON          := csvjson
+CSVSORT          := csvsort
+CSVSQL           := csvsql
+CSVSTACK         := csvstack
+CSVTOTABLE       := csvtotable
+CURL             := curl -s
+GH               := gh
+GLOW             := glow
+GREP             := grep 
+HEADER           := ./bin/header
+IN2CSV           := in2csv 
+JQ               := jq
+OPEN             := open
+RM               := rm -rfv
+SED              := gsed
+SORT             := sort
+STEAMPIPE        := steampipe
+TEE              := tee
+VISIDATA         := vd
 
 PAAS_ENVDIR   := ~/.govuk-paas
 DUBLIN_DOMAIN := cloud.service.gov.uk
@@ -37,11 +40,19 @@ status: README.md
 kanban:
 	$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard/projects/1
 
+virtual_machines.csv:
+	$(CURL)  $(PAAS_CF_REPO)/main/manifests/cf-manifest/env-specific/prod.yml | $(GREP) _instances | $(SED) -E -e 's/_instances//' -e 's/: /,/' -e 's/^/production,dublin,/' | $(SORT) | $(HEADER) -a region,environment,vm_type,vm_count > $@
+	$(CURL)  $(PAAS_CF_REPO)/main/manifests/cf-manifest/env-specific/prod-lon.yml | $(GREP) _instances | $(SED) -E -e 's/_instances//' -e 's/: /,/' -e 's/^/production,london,/' | $(SORT) >> $@
+	$(CURL)  $(PAAS_CF_REPO)/main/manifests/cf-manifest/env-specific/stg-lon.yml | $(GREP) _instances | $(SED) -E -e 's/_instances//' -e 's/: /,/' -e 's/^/staging,london,/' | $(SORT) >> $@ 
+	$(CURL)  $(PAAS_CF_REPO)/main/manifests/cf-manifest/isolation-segments/prod/govuk-notify-production.yml | $(GREP) number_of_cells | $(SED) -E -e 's/number_of_cells//' -e 's/: /,/' -e 's/^/production,london,isolation-segment/' | $(SORT) >> $@ 
+
+
 all: login extract-data dashboard
 
 clean:
 	@echo clean platform data
 	$(RM) orgs*.csv
+	$(RM) virtual_machines.csv
 
 dashboard:
 	$(STEAMPIPE) dashboard --workspace-chdir paas-dashboard
@@ -91,6 +102,15 @@ orgs-london.csv:
 	  $(CSVSORT) -c1,3 |\
 	  $(SED) -E '/,CAT/d;/,BACC/d;/,ACC/d;/,SMOKE/d;/,ASATS/d' |\
 	  $(TEE) $@
+
+services-dublin.csv:
+	$(CF1) service-use -f csv | gsed 's/, /,/g' | tee $@
+
+
+#csvstack -g dublin,london -n region data/dublin-services.csv data/london-services.csv |
+#	csvsort -c1,2 |
+#	csvformat -U 1 |
+#	tee data/all-services.csv
 
 start:
 	$(STEAMPIPE service start)
