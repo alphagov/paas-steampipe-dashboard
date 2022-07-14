@@ -2,7 +2,7 @@ select
 	org_name, 
 	region, 
 	owner, 
-	created, 
+	to_char(created::date,'YYYY-MM-DD') as created, 
 	suspended
 from 
 	orgs

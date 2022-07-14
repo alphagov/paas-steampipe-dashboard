@@ -11,6 +11,14 @@ dashboard "dashboard-paas" {
       EOM
   }
 
+ card {
+    type = "ok"
+    icon = "hashtag"
+    label = "countdown"
+    sql = query.countdown_days.sql
+    width = 2
+  }
+  
   card {
     type = "ok"
     icon = "hashtag"
