@@ -3,68 +3,83 @@
 dashboard "dashboard-paas" {
   title = "GOV.UK PaaS dashboard"
 
-  text {
-    width = 4
-    type = "markdown"
-    value = <<-EOM
-      show key measures of the platform on a steampipe dashboard (see [github](https://github.com/pauldougan/paas-dashboard) for code or the [kanban](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1?add_cards_query=is%3Aopen))
-      EOM
-  }
+
+container {  
+  title = "General"
 
  card {
-    type = "ok"
+    type = "info"
     icon = "hashtag"
     label = "countdown"
     sql = query.countdown_days.sql
     width = 2
   }
   
-  card {
-    type = "ok"
-    icon = "hashtag"
-    label = "organisation count"
-    sql = "select count(*) as organisations from orgs"
-    width = "2"
-    href = "${dashboard.orgs_report.url_path}" 
-  }
-
-  card {
-    type = "ok"
-    icon = "hashtag"
-    label = "department count"
-    sql = "select count(distinct owner) as departments from orgs"
-    width = "2"
-    href = "${dashboard.departments_report.url_path}"
+ card {
+   type = "info"
+   icon = "hashtag"
+   label = "virtual machines"
+   sql = query.virtual_machine_count.sql
+   width = "2"
+   href = "${dashboard.virtual_machine_counts_report.url_path}"
   }
 
  card {
-    type = "ok"
-    icon = "hashtag"
-    label = "suspended org count"
-    sql = "select count(*) as suspended from orgs where suspended = 'True'"
-    width = "2"
-  }
- 
- card {
-    type = "ok"
-    icon = "hashtag"
-    label = "expiring trial orgs"
-    sql = "select count(*) as expiring_soon from orgs where ((created::date+90) - current_date) > 0"
-    width = "2"
-    href = "${dashboard.trial_expiry_report.url_path}"
-  }
-
- card {
-    type = "ok"
+    type = "info"
     icon = "hashtag"
     label = "buildpack count"
-    sql = "select count(*) as buildpacks from cf_buildpack_v2"
+    sql = query.buildpacks_count.sql
     width = "2"
     href = "${dashboard.buildpacks_report.url_path}"
   }
 
+}
+
+container {
+  title = "Tenants"
+
   card {
-      type = "ok"
+    type = "info"
+    icon = "hashtag"
+    label = "department count"
+    sql = query.departments_count.sql
+    width = "2"
+    href = "${dashboard.departments_report.url_path}"
+  }
+
+  card {
+    type = "info"
+    icon = "hashtag"
+    label = "organisation count"
+    sql = query.org_count.sql
+    width = "2"
+    href = "${dashboard.orgs_report.url_path}" 
+  }
+
+ card {
+    type = "alert"
+    icon = "hashtag"
+    label = "suspended org count"
+    sql = query.org_count_suspended.sql
+    width = "2"
+  }
+ 
+ card {
+    type = "alert"
+    icon = "hashtag"
+    label = "expiring trial orgs"
+    sql = query.expiring_trial_orgs_count.sql
+    width = "2"
+    href = "${dashboard.trial_expiry_report.url_path}"
+  }
+
+}
+
+container {
+  title = "Domains"
+
+  card {
+      type = "info"
       icon = "hashtag"
       label = "private domains count"
       sql   = <<-EOQ
@@ -78,7 +93,7 @@ dashboard "dashboard-paas" {
     }
 
   card {
-      type = "ok"
+      type = "info"
       icon = "hashtag"
       label = "shared domains count"
       sql   = <<-EOQ
@@ -90,5 +105,85 @@ dashboard "dashboard-paas" {
       width = "2"
       href = "${dashboard.domains_report.url_path}"
     }
+}
+
+  chart {
+    type  = "donut"
+    title = "Orgs by department"
+    width = 4
+    sql = <<-EOQ
+      select
+          owner,
+          count(*) as count
+      from
+          orgs
+      group by
+          owner
+      order by
+          count desc
+    EOQ
+  }
+
+  chart {
+    type  = "column"
+    title = "Virtual machines by type"
+    width = 4
+    sql = <<-EOQ
+      select
+          vm_type ,
+          region,
+          sum(vm_count::integer) as count
+      from
+          virtual_machines
+      group by
+          vm_type, region
+      order by
+          count desc
+    EOQ
+  }
+
+  chart {
+    type  = "donut"
+    title = "Virtual machines by region"
+    width = 2
+    sql = <<-EOQ
+      select
+          region,
+          sum(vm_count::integer) as count
+      from
+          virtual_machines
+      group by
+          region
+      order by
+          count desc
+    EOQ
+  }
+
+  chart {
+    type  = "column"
+    title = "Virtual machines by environment"
+    width = 2
+    sql = <<-EOQ
+      select
+          environment,
+          vm_type,
+          sum(vm_count::integer) as count
+      from
+          virtual_machines
+      group by
+          environment, vm_type
+      order by
+          count desc
+    EOQ
+  }
+
+  text {
+    width = 8
+    type = "markdown"
+    value = <<-EOM
+      [github](https://github.com/pauldougan/paas-dashboard),  [kanban](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1?add_cards_query=is%3Aopen)
+      EOM
+  }
 
 }
+
