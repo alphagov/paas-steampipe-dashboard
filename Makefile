@@ -60,7 +60,7 @@ dashboard:
 data:
 	$(VISIDATA) .
 
-extract-data: orgs.csv
+extract-data: orgs.csv virtual_machines.csv
 
 login:
 	# TODO if already logged in dont do anything
