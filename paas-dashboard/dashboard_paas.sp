@@ -107,6 +107,20 @@ container {
     }
 }
 
+container {
+  title = “Services”
+  
+  card {
+    type = “info”
+    icon = “hashtag”
+    label = “services count”
+    sql = query.services_count.sql
+    width = “2”
+    href = “${dashboard.services_report.url_path}”
+  }
+
+}
+
   chart {
     type  = "donut"
     title = "Orgs by department"
