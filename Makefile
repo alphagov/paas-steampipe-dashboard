@@ -104,13 +104,20 @@ orgs-london.csv:
 	  $(TEE) $@
 
 services-dublin.csv:
-	$(CF1) service-use -f csv | gsed 's/, /,/g' | tee $@
+	$(CF1) service-use -f csv |\
+	  $(SED) 's/, /,/g' |\
+	  $(TEE) $@
 
+services-london.csv:
+	$(CF2) service-use -f csv |\
+	  $(SED) 's/, /,/g' |\
+	  $(TEE) $@
 
-#csvstack -g dublin,london -n region data/dublin-services.csv data/london-services.csv |
-#	csvsort -c1,2 |
-#	csvformat -U 1 |
-#	tee data/all-services.csv
+services.csv: services-dublin.csv services.london.csv
+	$(CSVSTACK) -g dublin,london -n region services-dublin.csv services-london.csv |\
+	  $(CSVSORT) -c1,2 |\
+	  $(CSVFORMAT) -U 1 |\
+	  $(TEE) $@
 
 start:
 	$(STEAMPIPE service start)
