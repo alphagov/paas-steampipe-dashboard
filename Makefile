@@ -113,7 +113,7 @@ services-london.csv:
 	  $(SED) 's/, /,/g' |\
 	  $(TEE) $@
 
-services.csv: services-dublin.csv services.london.csv
+services.csv: services-dublin.csv services-london.csv
 	$(CSVSTACK) -g dublin,london -n region services-dublin.csv services-london.csv |\
 	  $(CSVSORT) -c1,2 |\
 	  $(CSVFORMAT) -U 1 |\
