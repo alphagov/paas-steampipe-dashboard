@@ -51,7 +51,7 @@ container {
     type = "info"
     icon = "hashtag"
     label = "organisation count"
-    sql = query.org_count.sql
+    sql = query.orgs_count.sql
     width = "2"
     href = "${dashboard.orgs_report.url_path}" 
   }
@@ -60,7 +60,7 @@ container {
     type = "alert"
     icon = "hashtag"
     label = "suspended org count"
-    sql = query.org_count_suspended.sql
+    sql = query.orgs_count_suspended.sql
     width = "2"
   }
  
