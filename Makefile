@@ -60,7 +60,7 @@ dashboard:
 data:
 	$(VISIDATA) .
 
-extract-data: buildpacks.csv routes.csv orgs.csv virtual_machines.csv
+extract-data: stacks.csv buildpacks.csv routes.csv orgs.csv virtual_machines.csv
 
 login:
 	# TODO if already logged in dont do anything
@@ -79,6 +79,9 @@ login:
 logout:
 	$(CF1) logout
 	$(CF2) logout
+
+stacks.csv:
+	$(CF1) curl '/v3/stacks?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > $@
 
 buildpacks.csv:
 	$(CF1) curl '/v3/buildpacks?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > $@
