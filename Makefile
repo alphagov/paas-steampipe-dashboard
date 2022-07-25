@@ -87,7 +87,7 @@ routes.csv:
 	$(IN2CSV) -f json -k resources routes-dublin.json > routes-dublin.csv
 	$(IN2CSV) -f json -k resources routes-london.json > routes-london.csv
 	$(IN2CSV) -f json -k resources routes-london2.json | $(SED) 1d >> routes-london.csv	
-	$(CSVSTACK) -g dublin,london routes-dublin.csv routes-london.csv > routes.csv
+	$(CSVSTACK) -g dublin,london -n region routes-dublin.csv routes-london.csv > routes.csv
 
 orgs.csv: orgs-dublin.csv orgs-london.csv
 	$(CSVSTACK) orgs-dublin.csv orgs-london.csv |\
