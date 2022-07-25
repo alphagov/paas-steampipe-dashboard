@@ -68,7 +68,7 @@ container {
     type = "alert"
     icon = "hashtag"
     label = "expiring trial orgs"
-    sql = query.expiring_trial_orgs_count.sql
+    sql = query.orgs_expiring_trials_count.sql
     width = "2"
     href = "${dashboard.trial_expiry_report.url_path}"
   }
@@ -76,7 +76,7 @@ container {
 }
 
 container {
-  title = "Domains"
+  title = "Domains and routes"
 
   card {
       type = "info"
@@ -105,18 +105,28 @@ container {
       width = "2"
       href = "${dashboard.domains_report.url_path}"
     }
+
+  card {
+      type = "info"
+      icon = "hashtag"
+      label = "shared routes count"
+      sql = query.routes_count.sql 
+      width = "2"
+      href = "${dashboard.routes_report.url_path}"
+    }
+
 }
 
 container {
-  title = “Services”
+  title = "Backing Services"
   
   card {
-    type = “info”
-    icon = “hashtag”
-    label = “services count”
+    type = "info"
+    icon = "hashtag"
+    label = "services count"
     sql = query.services_count.sql
-    width = “2”
-    href = “${dashboard.services_report.url_path}”
+    width = "2"
+    href = "${dashboard.services_report.url_path}"
   }
 
 }
