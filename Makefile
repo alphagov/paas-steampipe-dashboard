@@ -60,7 +60,7 @@ dashboard:
 data:
 	$(VISIDATA) .
 
-extract-data: stacks.csv buildpacks.csv routes.csv orgs.csv virtual_machines.csv
+extract-data: apps.csv domains.csv stacks.csv buildpacks.csv routes.csv orgs.csv virtual_machines.csv
 
 login:
 	# TODO if already logged in dont do anything
@@ -80,6 +80,16 @@ logout:
 	$(CF1) logout
 	$(CF2) logout
 
+apps.csv:
+	$(CF1) curl '/v3/apps?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > apps-dublin.csv
+	$(CF2) curl '/v3/apps?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > apps-london.csv
+	$(CSVSTACK) -g dublin,london -n region apps-dublin.csv apps-london.csv > $@
+
+domains.csv:
+	$(CF1) curl '/v3/domains?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > domains-dublin.csv
+	$(CF2) curl '/v3/domains?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > domains-london.csv
+	$(CSVSTACK) -g dublin,london -n region domains-dublin.csv domains-london.csv > $@
+	
 stacks.csv:
 	$(CF1) curl '/v3/stacks?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > $@
 
