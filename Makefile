@@ -60,7 +60,7 @@ dashboard:
 data:
 	$(VISIDATA) .
 
-extract-data: apps.csv domains.csv stacks.csv buildpacks.csv routes.csv orgs.csv virtual_machines.csv
+extract-data: apps.csv services.csv domains.csv stacks.csv buildpacks.csv routes.csv orgs.csv virtual_machines.csv
 
 login:
 	# TODO if already logged in dont do anything
@@ -84,12 +84,20 @@ apps.csv:
 	$(CF1) curl '/v3/apps?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > apps-dublin.csv
 	$(CF2) curl '/v3/apps?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > apps-london.csv
 	$(CSVSTACK) -g dublin,london -n region apps-dublin.csv apps-london.csv > $@
+	$(RM) apps-dublin.csv apps-london.csv 
 
 domains.csv:
 	$(CF1) curl '/v3/domains?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > domains-dublin.csv
 	$(CF2) curl '/v3/domains?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > domains-london.csv
 	$(CSVSTACK) -g dublin,london -n region domains-dublin.csv domains-london.csv > $@
-	
+	$(RM) domains-dublin.csv domains-london.csv 
+
+services.csv:
+	$(CF1) curl '/v3/service_instances?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > services-dublin.csv
+	$(CF2) curl '/v3/service_instances?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > services-london.csv
+	$(CSVSTACK) -g dublin,london -n region services-dublin.csv services-london.csv > $@
+	$(RM) services-dublin.csv services-london.csv 
+
 stacks.csv:
 	$(CF1) curl '/v3/stacks?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > $@
 
@@ -97,13 +105,11 @@ buildpacks.csv:
 	$(CF1) curl '/v3/buildpacks?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > $@
 	
 routes.csv:
-	$(CF1) curl '/v3/routes?page=1&per_page=5000' > routes-dublin.json
-	$(CF2) curl '/v3/routes?page=1&per_page=5000' > routes-london.json
-	$(CF2) curl '/v3/routes?page=2&per_page=5000' > routes-london2.json
-	$(IN2CSV) -f json -k resources routes-dublin.json > routes-dublin.csv
-	$(IN2CSV) -f json -k resources routes-london.json > routes-london.csv
-	$(IN2CSV) -f json -k resources routes-london2.json | $(SED) 1d >> routes-london.csv	
+	$(CF1) curl '/v3/routes?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > routes-dublin.csv
+	$(CF2) curl '/v3/routes?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > routes-london.csv
+	$(CF2) curl '/v3/routes?page=2&per_page=5000' | $(IN2CSV) -f json -k resources | $(SED) 1d >> routes-london.csv
 	$(CSVSTACK) -g dublin,london -n region routes-dublin.csv routes-london.csv > $@
+	$(RM) routes-dublin.csv routes-london.csv 
 
 
 orgs.csv: orgs-dublin.csv orgs-london.csv
@@ -111,6 +117,7 @@ orgs.csv: orgs-dublin.csv orgs-london.csv
 		$(AWK) -F, -e '$$1 == ""  {print "UNDEFINED" $$0}; $$1 != "" {print $$0}' |\
     	$(CSVSORT) -c1,2 |\
       	$(CSVFORMAT) -U 1 > $@
+	$(RM) orgs-dublin.csv orgs-london.csv
 		
 orgs-dublin.csv:
 	$(CF1) curl '/v3/organizations?per_page=1000' |\
@@ -126,22 +133,6 @@ orgs-london.csv:
 	  $(HEADER) -a "owner,region,org_name,org_guid,created,suspended" |\
 	  $(CSVSORT) -c1,3 |\
 	  $(SED) -E '/,CAT/d;/,BACC/d;/,ACC/d;/,SMOKE/d;/,ASATS/d' |\
-	  $(TEE) $@
-
-services-dublin.csv:
-	$(CF1) service-use -f csv |\
-	  $(SED) 's/, /,/g' |\
-	  $(TEE) $@
-
-services-london.csv:
-	$(CF2) service-use -f csv |\
-	  $(SED) 's/, /,/g' |\
-	  $(TEE) $@
-
-services.csv: services-dublin.csv services-london.csv
-	$(CSVSTACK) -g dublin,london -n region services-dublin.csv services-london.csv |\
-	  $(CSVSORT) -c1,2 |\
-	  $(CSVFORMAT) -U 1 |\
 	  $(TEE) $@
 
 start:
