@@ -60,7 +60,7 @@ dashboard:
 data:
 	$(VISIDATA) .
 
-extract-data: routes.csv orgs.csv virtual_machines.csv
+extract-data: buildpacks.csv routes.csv orgs.csv virtual_machines.csv
 
 login:
 	# TODO if already logged in dont do anything
@@ -80,6 +80,9 @@ logout:
 	$(CF1) logout
 	$(CF2) logout
 
+buildpacks.csv:
+	$(CF1) curl '/v3/buildpacks?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > $@
+	
 routes.csv:
 	$(CF1) curl '/v3/routes?page=1&per_page=5000' > routes-dublin.json
 	$(CF2) curl '/v3/routes?page=1&per_page=5000' > routes-london.json
@@ -87,7 +90,8 @@ routes.csv:
 	$(IN2CSV) -f json -k resources routes-dublin.json > routes-dublin.csv
 	$(IN2CSV) -f json -k resources routes-london.json > routes-london.csv
 	$(IN2CSV) -f json -k resources routes-london2.json | $(SED) 1d >> routes-london.csv	
-	$(CSVSTACK) -g dublin,london -n region routes-dublin.csv routes-london.csv > routes.csv
+	$(CSVSTACK) -g dublin,london -n region routes-dublin.csv routes-london.csv > $@
+
 
 orgs.csv: orgs-dublin.csv orgs-london.csv
 	$(CSVSTACK) orgs-dublin.csv orgs-london.csv |\
