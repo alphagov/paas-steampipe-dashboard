@@ -1,4 +1,4 @@
 select 
-  count(*)
+  count(*) as services
 from
   services
