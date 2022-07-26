@@ -7,16 +7,16 @@
 
 # Overview
 
-[Steampipe](https://steampipe.io) provides an sql layer on top of a [wide range of cloud platform services](https://hub.steampipe.io/plugins) that have apis using a postgresql foreign data wrapper. 
+[Steampipe](https://steampipe.io) provides an sql layer on top of a [wide range of cloud platform services](https://hub.steampipe.io/plugins) that have apis using a postgresql [foreign data wrapper](https://github.com/turbot/steampipe-postgres-fdw). 
 
 This dashboard uses [steampipe.io](https://steampipe.io) to build a set of dashboards over [GOV.UK PaaS](https://cloud.service.gov.uk).
 
 It uses the [CF CLI](https://github.com/cloudfoundry/cli) to access the API and list resources, 
 the data is saved locally as csv files and accessed from a local steampipe dashboard running at http://localhost:9194
-using a few plugins:
+using plugins:
 - [csv plugin](https://hub.steampipe.io/plugins/turbot/csv) 
-- [cf plugin](https://github.com/SvenTo/steampipe-plugin-
-
+- github
+- 
 The dashboards pull data from the underlying csv files using sql and render the results as a dashboard.
 
 # How it works
@@ -24,7 +24,7 @@ The dashboards pull data from the underlying csv files using sql and render the 
 using GNU make
 
 1. logs into Cloud Foundry using the CF CLI `cf login --sso`
-2. extracts data as csv format from the CF API `cf curl` converting JSON into CSV using csvkit
+2. extracts data as csv format from the CF API `cf curl` converting JSON into CSV using csvkit's [in2csv](https://csvkit.readthedocs.io/en/latest/scripts/in2csv.html)
 3. launches steampipe dashboard to render results locally accessing data from plugins, running SQL queries against the normalised data using postgresql
 
 
