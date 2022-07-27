@@ -32,7 +32,7 @@ CF1           := CF_HOME=$(PAAS_ENVDIR)/dublin $(CF)
 CF2           := CF_HOME=$(PAAS_ENVDIR)/london $(CF)
 LOGIN1        := https://login.$(DUBLIN_DOMAIN)/passcode
 LOGIN2        := https://login.$(LONDON_DOMAIN)/passcode
-CSV_FILES     := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv orgs.csv processes.csv routes.csv security_groups.csv service_plans.csv services.csv spaces.csv stacks.csv users.csv virtual_machines.csv
+CSV_FILES     := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv organizations.csv processes.csv routes.csv security_groups.csv service_plans.csv service_instances.csv spaces.csv stacks.csv users.csv virtual_machines.csv
 
 status: README.md
 	@$(GLOW) $<
@@ -110,28 +110,26 @@ isolation_segments.csv:
 	$(CSVSTACK) -g dublin,london -n region isolation_segments-dublin.csv isolation_segments-london.csv > $@
 	$(RM) isolation_segments-dublin.csv isolation_segments-london.csv 
 
-orgs.csv: orgs-dublin.csv orgs-london.csv
-	$(CSVSTACK) orgs-dublin.csv orgs-london.csv |\
+organizations.csv: organizations-dublin.csv organizations-london.csv
+	$(CSVSTACK) organizations-dublin.csv organizations-london.csv |\
 		$(AWK) -F, -e '$$1 == ""  {print "UNDEFINED" $$0}; $$1 != "" {print $$0}' |\
     	$(CSVSORT) -c1,2 |\
       	$(CSVFORMAT) -U 1 > $@
-	$(RM) orgs-dublin.csv orgs-london.csv
+	$(RM) organizations-dublin.csv organizations-london.csv
 		
-orgs-dublin.csv:
+organizations-dublin.csv:
 	$(CF1) curl '/v3/organizations?per_page=5000' |\
 	  $(JQ) --arg region dublin -r '.resources[] | [.metadata.annotations.owner, $$region, .name, .guid, .created_at, .suspended] | @csv' |\
 	  $(HEADER) -a "owner,region,org_name,org_guid,created,suspended" |\
 	  $(CSVSORT) -c1,3 |\
-	  $(SED) -E '/,CAT/d;/,BACC/d;/,ACC/d;/,SMOKE/d;/,ASATS/d' |\
-	  $(TEE) $@
+	  $(SED) -E '/,CAT/d;/,BACC/d;/,ACC/d;/,SMOKE/d;/,ASATS/d' > $@
 
-orgs-london.csv:
+organizations-london.csv:
 	$(CF2) curl '/v3/organizations?per_page=5000' |\
 	  $(JQ) --arg region london -r '.resources[] | [.metadata.annotations.owner, $$region, .name, .guid, .created_at, .suspended] | @csv' |\
 	  $(HEADER) -a "owner,region,org_name,org_guid,created,suspended" |\
 	  $(CSVSORT) -c1,3 |\
-	  $(SED) -E '/,CAT/d;/,BACC/d;/,ACC/d;/,SMOKE/d;/,ASATS/d' |\
-	  $(TEE) $@
+	  $(SED) -E '/,CAT/d;/,BACC/d;/,ACC/d;/,SMOKE/d;/,ASATS/d' > $@
 
 processes.csv:
 	$(CF1) curl '/v3/processes?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > processes-dublin.csv
@@ -152,11 +150,11 @@ security_groups.csv:
 	$(CSVSTACK) -g dublin,london -n region security_groups-dublin.csv security_groups-london.csv > $@
 	$(RM) security_groups-dublin.csv security_groups-london.csv 
 
-services.csv:
-	$(CF1) curl '/v3/service_instances?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > services-dublin.csv
-	$(CF2) curl '/v3/service_instances?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > services-london.csv
-	$(CSVSTACK) -g dublin,london -n region services-dublin.csv services-london.csv > $@
-	$(RM) services-dublin.csv services-london.csv 
+service_instances.csv:
+	$(CF1) curl '/v3/service_instances?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_instances-dublin.csv
+	$(CF2) curl '/v3/service_instances?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_instances-london.csv
+	$(CSVSTACK) -g dublin,london -n region service_instances-dublin.csv service_instances-london.csv > $@
+	$(RM) service_instances-dublin.csv service_instances-london.csv 
 
 service_plans.csv:
 	$(CF1) curl '/v3/service_plans?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_plans-dublin.csv
