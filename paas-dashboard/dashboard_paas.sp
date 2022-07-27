@@ -199,6 +199,9 @@ container {
       order by
           count desc
     EOQ
+    legend {
+      display = "none"
+    }
   }
 
   text {
