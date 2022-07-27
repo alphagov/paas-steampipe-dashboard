@@ -1,4 +1,6 @@
 *.csv
+*.zip
+*.tar
 *.json
 .vscode
 data
