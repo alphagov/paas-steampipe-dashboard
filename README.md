@@ -7,6 +7,8 @@
 
 # Overview
 
+![screenshot of the dashboard](docs/screenshot.png)
+
 [Steampipe](https://steampipe.io) provides an sql layer on top of a [wide range of cloud platform services](https://hub.steampipe.io/plugins) that have apis using a postgresql [foreign data wrapper](https://github.com/turbot/steampipe-postgres-fdw). 
 
 This dashboard uses [steampipe.io](https://steampipe.io) to build a set of dashboards over [GOV.UK PaaS](https://cloud.service.gov.uk).
@@ -15,8 +17,8 @@ It uses the [CF CLI](https://github.com/cloudfoundry/cli) to access the API and 
 the data is saved locally as csv files and accessed from a local steampipe dashboard running at http://localhost:9194
 using plugins:
 - [csv plugin](https://hub.steampipe.io/plugins/turbot/csv) 
-- github
-- 
+- [github plugin](https://hub.steampipe.io/plugins/turbot/github)
+
 The dashboards pull data from the underlying csv files using sql and render the results as a dashboard.
 
 # How it works
