@@ -150,17 +150,29 @@ security_groups.csv:
 	$(CSVSTACK) -g dublin,london -n region security_groups-dublin.csv security_groups-london.csv > $@
 	$(RM) security_groups-dublin.csv security_groups-london.csv 
 
-service_instances.csv:
-	$(CF1) curl '/v3/service_instances?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_instances-dublin.csv
-	$(CF2) curl '/v3/service_instances?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_instances-london.csv
-	$(CSVSTACK) -g dublin,london -n region service_instances-dublin.csv service_instances-london.csv > $@
-	$(RM) service_instances-dublin.csv service_instances-london.csv 
+service_brokers.csv:
+	$(CF1) curl '/v3/service_brokers?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_brokers-dublin.csv
+	$(CF2) curl '/v3/service_brokers?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_brokers-london.csv
+	$(CSVSTACK) -g dublin,london -n region service_brokers-dublin.csv service_brokers-london.csv > $@
+	$(RM) service_brokers-dublin.csv service_brokers-london.csv 
+
+service_offerings.csv:
+	$(CF1) curl '/v3/service_offerings?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_offerings-dublin.csv
+	$(CF2) curl '/v3/service_offerings?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_offerings-london.csv
+	$(CSVSTACK) -g dublin,london -n region service_offerings-dublin.csv service__offerings-london.csv > $@
+	$(RM) service_offerings-dublin.csv service_offerings-london.csv 
 
 service_plans.csv:
 	$(CF1) curl '/v3/service_plans?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_plans-dublin.csv
 	$(CF2) curl '/v3/service_plans?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_plans-london.csv
 	$(CSVSTACK) -g dublin,london -n region service_plans-dublin.csv service_plans-london.csv > $@
-	$(RM) service_plans-dublin.csv service_plans-london.csv
+	$(RM) service_plans-dublin.csv service_plans-london.csv 
+
+service_instances.csv:
+	$(CF1) curl '/v3/service_instances?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_instances-dublin.csv
+	$(CF2) curl '/v3/service_instances?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > service_instances-london.csv
+	$(CSVSTACK) -g dublin,london -n region service_instances-dublin.csv service_instances-london.csv > $@
+	$(RM) service_instances-dublin.csv service_instances-london.csv 
 
 spaces.csv:
 	$(CF1) curl '/v3/spaces?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > spaces-dublin.csv
