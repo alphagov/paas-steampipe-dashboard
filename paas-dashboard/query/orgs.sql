@@ -10,6 +10,6 @@ select
       else 'invalid region'
     end as pazmin_link
 from 
-	orgs
+	organizations
 order by 
 	org_name

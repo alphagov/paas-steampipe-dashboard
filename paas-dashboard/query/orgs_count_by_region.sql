@@ -2,6 +2,6 @@ select
 	region,
 	count(*) as org_count 
 from 
-	orgs
+	organizations
 group by 
 	region

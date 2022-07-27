@@ -135,17 +135,7 @@ container {
     type  = "donut"
     title = "Orgs by department"
     width = 4
-    sql = <<-EOQ
-      select
-          owner,
-          count(*) as count
-      from
-          orgs
-      group by
-          owner
-      order by
-          count desc
-    EOQ
+    sql = query.orgs_count_by_department.sql
   }
 
   chart {

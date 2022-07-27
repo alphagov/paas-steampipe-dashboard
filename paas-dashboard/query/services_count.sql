@@ -1,4 +1,4 @@
 select 
   count(*) as services
 from
-  services
+  service_instances

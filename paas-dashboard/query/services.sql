@@ -1,10 +1,11 @@
 select 
-  *
+  region,
+  name,
+  type,
+  created_at
 from
   services
 order by 
-  "ServiceName",
-  "PlanName",
-  "OrgName",
-  "SpaceName",
-  "InstanceName"
+  region,
+  name,
+  type

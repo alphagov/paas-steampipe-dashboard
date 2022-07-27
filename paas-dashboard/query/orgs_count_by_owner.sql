@@ -2,6 +2,6 @@ select
 	owner,
 	count(*) as org_count 
 from 
-	orgs
+	organizations
 group by 
 	owner

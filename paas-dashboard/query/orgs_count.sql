@@ -1,4 +1,4 @@
 select 
 	count(*) as orgs
 from 
-	orgs
+	organizations

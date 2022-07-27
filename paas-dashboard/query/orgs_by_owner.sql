@@ -5,7 +5,7 @@ select
 	created,
 	suspended
 from 
-	orgs
+	organizations
 order by 
 	owner,
 	org_name

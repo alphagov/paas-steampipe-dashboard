@@ -5,6 +5,6 @@ select
 	owner,
 	suspended
 from 
-	orgs
+	organizations
 order by 
 	created

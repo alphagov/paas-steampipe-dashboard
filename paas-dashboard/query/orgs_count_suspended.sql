@@ -1,6 +1,6 @@
 select 
 	count(*) as suspended_org_count 
 from 
-	orgs
+	organizations
 where 
 	suspended::boolean = true 

@@ -1,6 +1,6 @@
 select
     distinct owner
 from 
-    orgs 
+    organizations 
 order by 
     owner

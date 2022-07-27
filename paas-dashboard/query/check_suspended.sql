@@ -11,4 +11,4 @@ select
   region,
   created
 from 
-    orgs
+    organizations
