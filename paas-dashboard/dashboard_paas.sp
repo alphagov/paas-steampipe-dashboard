@@ -57,6 +57,14 @@ container {
   }
 
  card {
+  type = "info"
+  icon = "hashtag"
+  label = "users count"
+  sql = query.users_count.sql
+  width = "2"
+ }
+ 
+ card {
     type = "alert"
     icon = "hashtag"
     label = "suspended org count"
@@ -72,6 +80,7 @@ container {
     width = "2"
     href = "${dashboard.trial_expiry_report.url_path}"
   }
+
 
 }
 
@@ -131,12 +140,22 @@ container {
 
 }
 
-  chart {
-    type  = "donut"
-    title = "Orgs by department"
-    width = 4
-    sql = query.orgs_count_by_department.sql
+container {
+  title = "GitHub"
+
+  card {
+    type = "info"
+    icon = "hashtag"
+    label = "paas repo count"
+    sql = query.paas_github_repos_count.sql
+    width = "2"
+    href = "${dashboard.github_repos_report.url_path}"
   }
+
+}
+
+container {
+  title = "Virtual machines"
 
   chart {
     type  = "column"
@@ -194,6 +213,17 @@ container {
     }
   }
 
+}
+
+  chart {
+    type  = "donut"
+    title = "Orgs by department"
+    width = 4
+    sql = query.orgs_count_by_department.sql
+  }
+
+container {
+
   text {
     width = 8
     type = "markdown"
@@ -201,6 +231,7 @@ container {
       [github](https://github.com/pauldougan/paas-dashboard),  [kanban](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1?add_cards_query=is%3Aopen)
       EOM
   }
+}
 
 }
 
