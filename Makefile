@@ -100,13 +100,13 @@ $(CSV_FILES1):
 	
 organizations.csv:
 	$(CF1) curl '/v3/organizations?per_page=5000' |\
-	  $(JQ) --arg region dublin -r '.resources[] | [.metadata.annotations.owner, $$region, .name, .guid, .created_at, .suspended] | @csv' |\
-	  $(HEADER) -a "owner,region,org_name,org_guid,created,suspended" |\
+	  $(JQ) --arg region dublin -r '.resources[] | [.metadata.annotations.owner, $$region, .name, .guid, .relationships.quota.data.guid, .created_at, .suspended] | @csv' |\
+	  $(HEADER) -a "owner,region,org_name,org_guid,quota_guid,created,suspended" |\
 	  $(CSVSORT) -c1,3 |\
 	  $(SED) -E '/,CAT/d;/,BACC/d;/,ACC/d;/,SMOKE/d;/,ASATS/d' > organizations-dublin.csv
 	$(CF2) curl '/v3/organizations?per_page=5000' |\
-	  $(JQ) --arg region london -r '.resources[] | [.metadata.annotations.owner, $$region, .name, .guid, .created_at, .suspended] | @csv' |\
-	  $(HEADER) -a "owner,region,org_name,org_guid,created,suspended" |\
+	  $(JQ) --arg region london -r '.resources[] | [.metadata.annotations.owner, $$region, .name, .guid, .relationships.quota.data.guid, .created_at, .suspended] | @csv' |\
+	  $(HEADER) -a "owner,region,org_name,org_guid,quota_guid,created,suspended" |\
 	  $(CSVSORT) -c1,3 |\
 	  $(SED) -E '/,CAT/d;/,BACC/d;/,ACC/d;/,SMOKE/d;/,ASATS/d' > organizations-london.csv
 	$(CSVSTACK) organizations-dublin.csv organizations-london.csv |\
