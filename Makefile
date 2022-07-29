@@ -68,7 +68,7 @@ dashboard:
 	$(STEAMPIPE) dashboard --workspace-chdir paas-dashboard
 
 data:
-	$(VISIDATA) .
+	$(VISIDATA) *.csv
 
 extract-data: $(CSV_FILES1) $(CSV_FILES)
 
