@@ -10,6 +10,7 @@ CSVSQL            := csvsql
 CSVSTACK          := csvstack
 CSVTOTABLE        := csvtotable
 CURL              := curl -s
+DRAWIO            := /Applications/draw.io.app/Contents/MacOS/draw.io
 GH                := gh
 GLOW              := glow
 GREP              := grep 
@@ -43,18 +44,10 @@ $(CSVSTACK) -g dublin,london -n region $1-dublin.csv $1-london.csv > $@
 $(RM) $1-dublin.csv $1-london.csv 
 endef
 
-hack:
-	@echo hack $(KEEP)
-ifeq ($(KEEP),)
-	@echo I would have deleted the files 
-endif
-
 status: README.md
 	@$(GLOW) $<
 	@$(GH) issue list
 
-kanban:
-	$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard/projects/1
 
 all: login extract-data dashboard
 
@@ -64,12 +57,6 @@ clean:
 	$(RM) *-dublin.csv
 	$(RM) *-london.csv
 
-dashboard:
-	$(STEAMPIPE) dashboard --workspace-chdir paas-dashboard
-
-data:
-	$(VISIDATA) .
-
 extract-data: $(CSV_FILES1) $(CSV_FILES)
 
 login:
@@ -77,23 +64,18 @@ login:
 	open $(LOGIN1)
 	$(CF1) api https://api.cloud.service.gov.uk
 	$(CF1) login --sso 
-
 	open $(LOGIN2)
 	$(CF2) api https://api.london.cloud.service.gov.uk
 	$(CF2) login --sso 
-
 	open $(LOGIN2)
 	$(CF2) api https://api.london.cloud.service.gov.uk
 	$(CF2) login --sso 
-
 	$(CF1) api
 	$(CF2) api
-
 
 logout:
 	$(CF1) logout
 	$(CF2) logout
-
 
 $(CSV_FILES1):
 	$(call api2csv,$(basename $@))
@@ -128,17 +110,12 @@ virtual_machines.csv:
 	$(CURL)  $(PAAS_CF_REPO)/main/manifests/cf-manifest/env-specific/stg-lon.yml | $(GREP) _instances | $(SED) -E -e 's/_instances//' -e 's/: /,/' -e 's/^/staging,london,/' | $(SORT) >> $@ 
 	$(CURL)  $(PAAS_CF_REPO)/main/manifests/cf-manifest/isolation-segments/prod/govuk-notify-production.yml | $(GREP) number_of_cells | $(SED) -E -e 's/number_of_cells//' -e 's/: /,/' -e 's/^/production,dublin,isolation-segment/' | $(SORT) >> $@ 
 
-start:
-	$(STEAMPIPE service start)
-
-query:
-	$(STEAMPIPE) query
-
 dependencies:
 	mkdir -p $(PAAS_ENVDIR)/dublin             
 	mkdir -p $(PAAS_ENVDIR)/london
 	pip3 install -r requirements.txt           # python dependencies
 	type cf || brew install cf-cli@8           # Cloud Foundry CLI
+	brew install drawio                        # drawio diagram editor
 	type gawk || brew install gawk             # GNU awk	
 	type gh || brew install gh                 # github cli
 	type glow || brew install glow             # glow cli for handling markdown
@@ -148,5 +125,9 @@ dependencies:
 	type yq || brew install yq                 # YAML tools
 	$(STEAMPIPE) plugin install $(STEAMPIPE_PLUGINS) 
 
-issues:
-	$(GH) issue list
+dashboard:   ;$(STEAMPIPE) dashboard --workspace-chdir paas-dashboard
+data:        ;$(VISIDATA) .
+edit-model:  docs/datamodel.drawio ; $(DRAWIO) $< 
+issues:      ;$(GH) issue list
+kanban:      ;$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard/projects/1
+query:       ;$(STEAMPIPE) query	start: ;$(STEAMPIPE service start)
