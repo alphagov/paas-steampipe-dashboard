@@ -126,8 +126,9 @@ dependencies:
 	$(STEAMPIPE) plugin install $(STEAMPIPE_PLUGINS) 
 
 dashboard:   ;$(STEAMPIPE) dashboard --workspace-chdir paas-dashboard
-data:        ;$(VISIDATA) .
-edit-model:  docs/datamodel.drawio ; $(DRAWIO) $< 
+edit-csvs:        ;$(VISIDATA) *.csv
+docs/datamodel.svg:  docs/datamodel.drawio ; $(DRAWIO) -x -e  -o docs/datamodel.svg $<
+edit-model:  docs/datamodel.drawio ; $(DRAWIO) $<
 issues:      ;$(GH) issue list
 kanban:      ;$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard/projects/1
 query:       ;$(STEAMPIPE) query	start: ;$(STEAMPIPE service start)
