@@ -1,15 +1,17 @@
 
 # GOV.UK PaaS dashboard
 
-> a 🔥 [firebreak](https://insidegovuk.blog.gov.uk/2018/05/03/firebreaks-on-gov-uk/) experiment using [Steampipe](https://steampipe.io/) to make a dashboard to monitor [GOV.UK PaaS](https://cloud.service.gov.uk) platform things.
+a 🔥 [firebreak](https://insidegovuk.blog.gov.uk/2018/05/03/firebreaks-on-gov-uk/) experiment using [Steampipe](https://steampipe.io/) to make a dashboard to monitor [GOV.UK PaaS](https://cloud.service.gov.uk) platform things.
 
-[kanban](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1)
+Initially it runs locally but it will be deployed to the cloud at some point for the team to access. 
+
+see [kanban](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1) 
 
 # Overview
 
 ![screenshot of the dashboard](docs/screenshot.png)
 
-[Steampipe](https://steampipe.io) provides an sql layer on top of a [wide range of cloud platform services](https://hub.steampipe.io/plugins) that have apis using a postgresql [foreign data wrapper](https://github.com/turbot/steampipe-postgres-fdw). 
+[Steampipe](https://steampipe.io) provides a SQL layer on top of a [wide range of cloud platform services](https://hub.steampipe.io/plugins) that have apis using a postgresql [foreign data wrapper](https://github.com/turbot/steampipe-postgres-fdw). 
 
 This dashboard uses [steampipe.io](https://steampipe.io) to build a set of dashboards over [GOV.UK PaaS](https://cloud.service.gov.uk).
 
@@ -29,6 +31,7 @@ using GNU make
 2. extracts data as csv format from the CF API `cf curl` converting JSON into CSV using csvkit's [in2csv](https://csvkit.readthedocs.io/en/latest/scripts/in2csv.html)
 3. launches steampipe dashboard to render results locally accessing data from plugins, running SQL queries against the normalised data using postgresql
 
+Read about the [data model](docs/datamodel.md)
 
 # Prerequisites
 
@@ -54,8 +57,15 @@ a [GOV.UK PaaS account](https://cloud.service.gov.uk) with [global auditor](http
 
 # Usage
 
+`git clone https://github.com/pauldougan/paas-steampipe-dashboard`
+
+`cd paas-steampipe-dashboard`
 
 `make dependencies` to install all the necessary packages
+
+configure the plugins
+
+`vim ~/.steampipe/config`
 
 `make all` to login, extract data and run dashboard
 
