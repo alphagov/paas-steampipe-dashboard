@@ -12,6 +12,7 @@ CSVTOTABLE        := csvtotable
 CURL              := curl -s
 DRAWIO            := /Applications/draw.io.app/Contents/MacOS/draw.io
 GH                := gh
+GIT               := git
 GLOW              := glow
 GREP              := grep 
 HEADER            := ./bin/header
@@ -127,7 +128,7 @@ dependencies:
 
 dashboard:   ;$(STEAMPIPE) dashboard --workspace-chdir paas-dashboard
 edit-csvs:        ;$(VISIDATA) *.csv
-docs/datamodel.svg:  docs/datamodel.drawio ; $(DRAWIO) -x -e  -o docs/datamodel.svg $<
+docs/datamodel.svg:  docs/datamodel.drawio ; $(DRAWIO) -x -e  -o $@ $< ; $(GIT) add $@ ; $(GIT) commim -m "refresh diagram"
 edit-model:  docs/datamodel.drawio ; $(DRAWIO) $<
 issues:      ;$(GH) issue list
 kanban:      ;$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard/projects/1
