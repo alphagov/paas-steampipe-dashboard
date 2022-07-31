@@ -80,7 +80,12 @@ logout:
 
 $(CSV_FILES1):
 	$(call api2csv,$(basename $@))
-	
+
+docs/datamodel.svg: docs/datamodel.drawio
+	$(DRAWIO) -x -e  -o $@ $<
+	$(GIT) add $@
+	$(GIT) commit -m "refresh diagram"
+
 organizations.csv:
 	$(CF1) curl '/v3/organizations?per_page=5000' |\
 	  $(JQ) --arg region dublin -r '.resources[] | [.metadata.annotations.owner, $$region, .name, .guid, .relationships.quota.data.guid, .created_at, .suspended] | @csv' |\
@@ -126,10 +131,11 @@ dependencies:
 	type yq || brew install yq                 # YAML tools
 	$(STEAMPIPE) plugin install $(STEAMPIPE_PLUGINS) 
 
-dashboard:   ;$(STEAMPIPE) dashboard --workspace-chdir paas-dashboard
-edit-csvs:        ;$(VISIDATA) *.csv
-docs/datamodel.svg:  docs/datamodel.drawio ; $(DRAWIO) -x -e  -o $@ $< ; $(GIT) add $@ ; $(GIT) commim -m "refresh diagram"
-edit-model:  docs/datamodel.drawio ; $(DRAWIO) $<
-issues:      ;$(GH) issue list
-kanban:      ;$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard/projects/1
-query:       ;$(STEAMPIPE) query	start: ;$(STEAMPIPE service start)
+dashboard:       ;$(STEAMPIPE) dashboard --workspace-chdir paas-dashboard
+edit-csv:        ;$(VISIDATA) *.csv
+edit-model:      docs/datamodel.drawio ; $(DRAWIO) $<
+issues:          ;$(GH) issue list
+kanban:          ;$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard/projects/1
+publish-model:   docs/datamodel.svg
+query:           ;$(STEAMPIPE) query	start: ;$(STEAMPIPE service start)
+
