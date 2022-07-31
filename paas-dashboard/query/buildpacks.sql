@@ -1,4 +1,5 @@
 select
+    region,
     position, 
     name, 
     filename, 
@@ -7,4 +8,6 @@ select
 from 
     buildpacks 
 order by
-    position
+    region,
+    position::integer
+
