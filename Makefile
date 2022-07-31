@@ -83,8 +83,9 @@ $(CSV_FILES1):
 
 docs/datamodel.svg: docs/datamodel.drawio
 	$(DRAWIO) -x -e  -o $@ $<
-	$(GIT) add $@
-	$(GIT) commit -m "refresh diagram"
+
+docs/datamodel.png: docs/datamodel.drawio
+	$(DRAWIO) -x -e  -o $@ $<
 
 organizations.csv:
 	$(CF1) curl '/v3/organizations?per_page=5000' |\
@@ -131,11 +132,12 @@ dependencies:
 	type yq || brew install yq                 # YAML tools
 	$(STEAMPIPE) plugin install $(STEAMPIPE_PLUGINS) 
 
-dashboard:       ;$(STEAMPIPE) dashboard --workspace-chdir paas-dashboard
+dashboard:       ;$(STEAMPIPE) dashboard --workspace-chdir dashboards
 edit-csv:        ;$(VISIDATA) *.csv
 edit-model:      docs/datamodel.drawio ; $(DRAWIO) $<
 issues:          ;$(GH) issue list
 kanban:          ;$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard/projects/1
-publish-model:   docs/datamodel.svg
+publish-model:   docs/datamodel.svg docs/datamodel.png
+	$(GIT) add 
 query:           ;$(STEAMPIPE) query	start: ;$(STEAMPIPE service start)
 
