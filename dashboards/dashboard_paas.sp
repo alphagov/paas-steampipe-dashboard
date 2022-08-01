@@ -19,7 +19,7 @@ container {
    type = "info"
    icon = "hashtag"
    label = "virtual machines"
-   sql = query.virtual_machine_count.sql
+   sql = query.virtual_machines_count.sql
    width = "2"
    href = "${dashboard.virtual_machine_counts_report.url_path}"
   }
@@ -56,13 +56,9 @@ container {
     href = "${dashboard.orgs_report.url_path}" 
   }
 
- card {
-  type = "info"
-  icon = "hashtag"
-  label = "users count"
-  sql = query.users_count.sql
-  width = "2"
- }
+  card {
+    base = card.users_count
+  }
  
  card {
     type = "alert"
@@ -158,59 +154,15 @@ container {
   title = "Virtual machines"
 
   chart {
-    type  = "column"
-    title = "Virtual machines by type"
-    width = 4
-    sql = <<-EOQ
-      select
-          vm_type ,
-          region,
-          sum(vm_count::integer) as count
-      from
-          virtual_machines
-      group by
-          vm_type, region
-      order by
-          count desc
-    EOQ
+    base = chart.virtual_machines_by_type
   }
 
   chart {
-    type  = "donut"
-    title = "Virtual machines by region"
-    width = 2
-    sql = <<-EOQ
-      select
-          region,
-          sum(vm_count::integer) as count
-      from
-          virtual_machines
-      group by
-          region
-      order by
-          count desc
-    EOQ
+    base = chart.virtual_machines_by_region
   }
 
   chart {
-    type  = "column"
-    title = "Virtual machines by environment"
-    width = 2
-    sql = <<-EOQ
-      select
-          environment,
-          vm_type,
-          sum(vm_count::integer) as count
-      from
-          virtual_machines
-      group by
-          environment, vm_type
-      order by
-          count desc
-    EOQ
-    legend {
-      display = "none"
-    }
+    base = chart.virtual_machines_by_environment
   }
 
 }
@@ -220,10 +172,6 @@ container {
     title = "Orgs by department"
     width = 4
     sql = query.orgs_count_by_department.sql
-  }
-
-  card {
-    base = card.users_count
   }
 
 container {
