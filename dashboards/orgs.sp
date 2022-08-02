@@ -11,3 +11,9 @@ dashboard "orgs_report" {
     }
   }
 }
+
+
+control "suspended_orgs" {
+  title = "Orgs that are suspended"
+  sql = query.orgs_check_suspended.sql
+}
