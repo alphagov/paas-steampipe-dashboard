@@ -134,7 +134,7 @@ dependencies:
 	type yq || brew install yq                 # YAML tools
 	$(STEAMPIPE) plugin install $(STEAMPIPE_PLUGINS) 
 
-dashboard:       ;$(STEAMPIPE) dashboard --workspace-chdir dashboards
+dashboard:       ; @echo "http://localhost:9194/paas-dashboard.dashboard.paas";  $(STEAMPIPE) dashboard --browser=false --workspace-chdir dashboards ; 
 edit-csv:        ;$(VISIDATA) *.csv
 edit-model:      docs/datamodel.drawio ; $(DRAWIO) $<
 issues:          ;$(GH) issue list
