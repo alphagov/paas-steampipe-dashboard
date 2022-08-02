@@ -33,7 +33,7 @@ card "orgs_expiring_trials_count" {
   label = "expiring trial orgs"
   sql = query.orgs_expiring_trials_count.sql
   width = "2"
-  href = "${dashboard.trial_expiry_report.url_path}"
+  href = "${dashboard.orgs_trial_expiry_report.url_path}"
 }
 
 table "orgs_report" {

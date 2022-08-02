@@ -2,6 +2,9 @@
 
 dashboard "paas" {
   title = "GOV.UK PaaS dashboard"
+  tags = {
+    Service = "bar"
+  }
   container {  
     title = "General"
     card {

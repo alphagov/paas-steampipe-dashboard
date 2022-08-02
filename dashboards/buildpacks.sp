@@ -1,4 +1,4 @@
- card "buildpacks_count" {
+card "buildpacks_count" {
   type = "info"
   icon = "hashtag"
   label = "buildpack count"
@@ -18,3 +18,14 @@ dashboard "buildpacks_report" {
     base = table.buildpacks
   }
 }
+
+dashboard "buildpacks" {
+  title = "GOV.UK PaaS buildpacks dashboard"
+  card {
+    base = card.buildpacks_count
+  }
+  table {
+    base = table.buildpacks
+  }
+}
+
