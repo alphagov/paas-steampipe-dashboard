@@ -21,5 +21,18 @@ dashboard "departments_report" {
   service = "departments"
   type     = "report"
   }
+}
 
+dashboard "departments" {
+  title = "GOV.UK PaaS departments dashboard"
+  card {
+    base = card.departments_count
+  }
+  table {
+    base = table.departments
+  }
+  tags = {
+  service = "departments"
+  type     = "dashboard"
+  }
 }
