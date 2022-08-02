@@ -3,34 +3,19 @@
 dashboard "dashboard-paas" {
   title = "GOV.UK PaaS dashboard"
 
-
 container {  
   title = "General"
 
- card {
-    type = "info"
-    icon = "hashtag"
-    label = "countdown"
-    sql = query.countdown_days.sql
-    width = 2
-  }
-  
- card {
-   type = "info"
-   icon = "hashtag"
-   label = "virtual machines"
-   sql = query.virtual_machines_count.sql
-   width = "2"
-   href = "${dashboard.virtual_machine_counts_report.url_path}"
+  card {
+    base = card.countdown_days
   }
 
- card {
-    type = "info"
-    icon = "hashtag"
-    label = "buildpack count"
-    sql = query.buildpacks_count.sql
-    width = "2"
-    href = "${dashboard.buildpacks_report.url_path}"
+  card {
+    base = card.virtual_machines_count
+  }
+
+  card {
+    base = card.buildpacks_count
   }
 
 }
@@ -39,86 +24,42 @@ container {
   title = "Tenants"
 
   card {
-    type = "info"
-    icon = "hashtag"
-    label = "department count"
-    sql = query.departments_count.sql
-    width = "2"
-    href = "${dashboard.departments_report.url_path}"
+    base = card.departments_count
   }
-
+  
   card {
-    type = "info"
-    icon = "hashtag"
-    label = "organisation count"
-    sql = query.orgs_count.sql
-    width = "2"
-    href = "${dashboard.orgs_report.url_path}" 
+    base = card.organisations_count
   }
-
+  
   card {
     base = card.users_count
   }
  
- card {
-    type = "alert"
-    icon = "hashtag"
-    label = "suspended org count"
-    sql = query.orgs_count_suspended.sql
-    width = "2"
+  card {
+    base = card.orgs_count_suspended
   }
  
- card {
-    type = "alert"
-    icon = "hashtag"
-    label = "expiring trial orgs"
-    sql = query.orgs_expiring_trials_count.sql
-    width = "2"
-    href = "${dashboard.trial_expiry_report.url_path}"
+  card {
+    base = card.orgs_expiring_trials_count
   }
-
-
+ 
 }
 
 container {
   title = "Domains and routes"
 
   card {
-      type = "info"
-      icon = "hashtag"
-      label = "private domains count"
-      sql   = <<-EOQ
-        select
-          count(*) as private_domains
-        from 
-          cf_private_domain_v2 
-      EOQ
-      width = "2"
-      href = "${dashboard.domains_report.url_path}"
-    }
+    base = card.private_domains_count
+  }
 
   card {
-      type = "info"
-      icon = "hashtag"
-      label = "shared domains count"
-      sql   = <<-EOQ
-        select
-          count(*) as shared_domains
-        from 
-          cf_shared_domain_v2 
-      EOQ
-      width = "2"
-      href = "${dashboard.domains_report.url_path}"
-    }
+    base = card.public_domains_count
+  }
 
   card {
-      type = "info"
-      icon = "hashtag"
-      label = "shared routes count"
-      sql = query.routes_count.sql 
-      width = "2"
-      href = "${dashboard.routes_report.url_path}"
-    }
+    base = card.shared_routes_count
+  }
+
 
 }
 
@@ -126,14 +67,9 @@ container {
   title = "Backing Services"
   
   card {
-    type = "info"
-    icon = "hashtag"
-    label = "services count"
-    sql = query.services_count.sql
-    width = "2"
-    href = "${dashboard.services_report.url_path}"
+    base = card.services_count
   }
-
+  
 }
 
 container {
@@ -175,15 +111,9 @@ container {
   }
 
 container {
-
   text {
-    width = 8
-    type = "markdown"
-    value = <<-EOM
-      [github](https://github.com/pauldougan/paas-dashboard),  [kanban](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1?add_cards_query=is%3Aopen)
-      EOM
+    base = text.footer
   }
 }
 
 }
-
