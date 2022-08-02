@@ -3,6 +3,13 @@ control "suspended_orgs" {
   sql = query.orgs_check_suspended.sql
 }
 
+chart "orgs_by_department" {
+  type  = "donut"
+  title = "Orgs by department"
+  width = 4
+  sql = query.orgs_count_by_department.sql
+}
+
 card "organisations_count" {
   type = "info"
   icon = "hashtag"
@@ -28,7 +35,6 @@ card "orgs_expiring_trials_count" {
   width = "2"
   href = "${dashboard.trial_expiry_report.url_path}"
 }
-
 
 table "orgs_report" {
   width = 12
