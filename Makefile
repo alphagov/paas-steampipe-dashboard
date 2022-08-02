@@ -26,6 +26,8 @@ STEAMPIPE         := steampipe
 TEE               := tee
 VISIDATA          := vd
 
+CF_ORG            := admin
+CF_SPACE          := billing
 PAAS_CF_REPO      := https://raw.githubusercontent.com/alphagov/paas-cf
 PAAS_ENVDIR       := ~/.govuk-paas
 DUBLIN_DOMAIN     := cloud.service.gov.uk
@@ -64,13 +66,13 @@ login:
 	# TODO if already logged in dont do anything
 	open $(LOGIN1)
 	$(CF1) api https://api.cloud.service.gov.uk
-	$(CF1) login --sso 
+	$(CF1) login --sso -o $(CF_ORG) -s $(CF_SPACE)
 	open $(LOGIN2)
 	$(CF2) api https://api.london.cloud.service.gov.uk
-	$(CF2) login --sso 
+	$(CF2) login --sso -o $(CF_ORG) -s $(CF_SPACE)
 	open $(LOGIN2)
 	$(CF2) api https://api.london.cloud.service.gov.uk
-	$(CF2) login --sso 
+	$(CF2) login --sso -o $(CF_ORG) -s $(CF_SPACE)
 	$(CF1) api
 	$(CF2) api
 
