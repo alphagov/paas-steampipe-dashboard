@@ -13,4 +13,8 @@ dashboard "github_repos_report" {
     width = 12
     sql = query.paas_github_repos.sql
   }
+  tags = {
+    service = "github"
+    type     = "report"
+  }
 }

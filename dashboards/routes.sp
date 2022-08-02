@@ -13,4 +13,8 @@ dashboard "routes_report" {
     width = 12
     sql = query.routes.sql
   }
+  tags = {
+    service = "routes"
+    type = "report"
+  }
 }

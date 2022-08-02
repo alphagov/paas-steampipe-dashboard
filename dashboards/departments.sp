@@ -17,4 +17,9 @@ dashboard "departments_report" {
   table {
     base = table.departments
   }
+  tags = {
+  service = "departments"
+  type     = "report"
+  }
+
 }

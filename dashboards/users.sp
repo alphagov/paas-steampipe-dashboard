@@ -12,15 +12,15 @@ table "users" {
 }
 
 dashboard "users" {
- 
     title = "GOV.UK PaaS users dashboard"
- 
     card {
         base = card.users_count
     }
-
     table {
         base = table.users
     }
-
+  tags = {
+    service = "users"
+    type     = "report"
+  }
 }

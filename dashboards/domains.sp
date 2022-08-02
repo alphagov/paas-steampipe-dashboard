@@ -34,4 +34,8 @@ dashboard "domains_report" {
     width = 12
     sql = query.domains.sql
   }
+  tags = {
+    service = "domains"
+    type     = "report"
+  }
 }

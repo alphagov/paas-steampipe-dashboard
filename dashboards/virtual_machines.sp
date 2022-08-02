@@ -34,11 +34,16 @@ chart "virtual_machines_by_environment" {
   legend {
     display = "none"
   }
+
 }
 
 dashboard "virtual_machine_counts_report" {
   title = "GOV.UK PaaS virtual machine count report"
   table {
     base = table.virtual_machine_counts
+  }
+  tags = {
+    service = "virtual machines"
+    type     = "report"
   }
 }

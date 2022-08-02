@@ -3,7 +3,8 @@
 dashboard "paas" {
   title = "GOV.UK PaaS dashboard"
   tags = {
-    Service = "bar"
+    service = "paas"
+  type     = "dashboard"
   }
   container {  
     title = "General"

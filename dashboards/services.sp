@@ -13,4 +13,8 @@ dashboard "services_report" {
     width = 12
     sql = query.services.sql
   }
+  tags = {
+    service = "services"
+    type = "report"
+  }
 }

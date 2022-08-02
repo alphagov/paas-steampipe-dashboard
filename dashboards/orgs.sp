@@ -52,6 +52,10 @@ dashboard "orgs_report" {
   table {
     base = table.orgs_report
   }
+  tags = {
+    service = "organisations"
+    type     = "report"
+  }
 }
 
 dashboard "orgs_trial_expiry_report" {
@@ -59,5 +63,9 @@ dashboard "orgs_trial_expiry_report" {
   table {
     width = 12
     sql = query.orgs_expiring_trials.sql
+  }
+  tags = {
+    service = "organisations"
+    type     = "report"
   }
 }

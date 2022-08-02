@@ -17,6 +17,11 @@ dashboard "buildpacks_report" {
   table {
     base = table.buildpacks
   }
+  tags = {
+    service = "buildpacks"
+    type     = "report"
+  }
+
 }
 
 dashboard "buildpacks" {
@@ -26,6 +31,10 @@ dashboard "buildpacks" {
   }
   table {
     base = table.buildpacks
+  }
+  tags = {
+    service = "buildpacks"
+    type     = "dashboard"
   }
 }
 
