@@ -1,3 +1,4 @@
+
 card "departments_count" {
   type = "info"
   icon = "hashtag"
@@ -25,6 +26,10 @@ dashboard "departments_report" {
 
 dashboard "departments" {
   title = "GOV.UK PaaS departments dashboard"
+
+  input {
+    base = input.departments
+  }
   card {
     base = card.departments_count
   }
