@@ -47,3 +47,21 @@ dashboard "virtual_machine_counts_report" {
     type     = "report"
   }
 }
+
+dashboard "virtual_machines" {
+  title = "GOV.UK PaaS virtual machines dashboard"
+  chart {
+    base = chart.virtual_machines_by_type
+  }
+  chart {
+    type = "column"
+    base = chart.virtual_machines_by_region
+  }
+  chart {
+    base = chart.virtual_machines_by_environment
+  }
+  tags = {
+    service = "virtual machines"
+    type     = "dashboard"
+  }
+}

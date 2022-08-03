@@ -1,3 +1,4 @@
+
 control "suspended_orgs" {
   title = "Orgs that are suspended"
   sql = query.orgs_check_suspended.sql
@@ -67,5 +68,16 @@ dashboard "orgs_trial_expiry_report" {
   tags = {
     service = "organisations"
     type     = "report"
+  }
+}
+
+dashboard "orgs" {
+  title = "GOV.UK PaaS orgs dashboard"
+  input {
+    base = input.regions
+  }
+  tags = {
+    service = "organisations"
+    type     = "dashboard"
   }
 }

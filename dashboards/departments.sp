@@ -1,3 +1,4 @@
+
 card "departments_count" {
   type = "info"
   icon = "hashtag"
@@ -21,5 +22,22 @@ dashboard "departments_report" {
   service = "departments"
   type     = "report"
   }
+}
 
+dashboard "departments" {
+  title = "GOV.UK PaaS departments dashboard"
+
+  input {
+    base = input.departments
+  }
+  card {
+    base = card.departments_count
+  }
+  table {
+    base = table.departments
+  }
+  tags = {
+  service = "departments"
+  type     = "dashboard"
+  }
 }
