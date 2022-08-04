@@ -38,7 +38,7 @@ LOGIN1            := https://login.$(DUBLIN_DOMAIN)/passcode
 LOGIN2            := https://login.$(LONDON_DOMAIN)/passcode
 CSV_FILES         := organizations.csv routes.csv virtual_machines.csv
 CSV_FILES1        := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv organization_quotas.csv processes.csv security_groups.csv service_brokers.csv service_instances.csv service_offerings.csv service_plans.csv service_route_bindings.csv spaces.csv space_quotas.csv stacks.csv users.csv
-STEAMPIPE_PLUGINS := aws config csv docker github kubernetes net prometheus terraform zendesk
+STEAMPIPE_PLUGINS := config csv github net rss prometheus terraform zendesk
 
 define api2csv
 $(CF1) curl '/v3/$1?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > $1-dublin.csv
