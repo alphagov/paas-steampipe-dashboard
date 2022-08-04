@@ -25,5 +25,8 @@ mod "paas-dashboard" {
     plugin “prometheus” {
       version = “0.1.0”
     }
+    plugin “zendesk” {
+      version = “0.4.1”
+    }
   }
 }
