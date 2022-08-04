@@ -14,6 +14,9 @@ mod "paas-dashboard" {
     plugin “rss” {
       version = “0.2.1”
     }
+    plugin {
+      version = “0.1.0”
+    } 
   }
 
 }
