@@ -1,0 +1,3 @@
+connection “rss” {
+  plugin = “rss”
+}
