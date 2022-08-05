@@ -17,11 +17,10 @@ This dashboard uses [steampipe.io](https://steampipe.io) to build a set of dashb
 
 It uses the [CF CLI](https://github.com/cloudfoundry/cli) to access the API and list resources, 
 the data is saved locally as csv files and accessed from a local steampipe dashboard running at http://localhost:9194
-using plugins:
-- [csv plugin](https://hub.steampipe.io/plugins/turbot/csv) 
-- [github plugin](https://hub.steampipe.io/plugins/turbot/github)
 
-The dashboards pull data from the underlying csv files using sql and render the results as a dashboard.
+it uses a number of plugins configured in [dashboards/mod.sp](dashboards/mod.sp)
+
+The dashboards pull data from the underlying csv files using SQL and render the results as a dashboard.
 
 # How it works
 
@@ -57,21 +56,27 @@ a [GOV.UK PaaS account](https://cloud.service.gov.uk) with [global auditor](http
 
 # Usage
 
-`git clone https://github.com/pauldougan/paas-steampipe-dashboard`
+## 1. installation
+
+git clone https://github.com/pauldougan/paas-steampipe-dashboard
 
 `cd paas-steampipe-dashboard`
 
-`make dependencies` to install all the necessary packages
+`make dependencies` to install all the necessary packages                       
 
-configure the plugins
+## 2. configure plugins
+
+see [config](config) for examples
 
 `vim ~/.steampipe/config`
 
+## 3. extract data
+
 `make all` to login, extract data and run dashboard
 
+## 4. run dashboard 
+  
 `make dashboard` to run the dashboard with the current data and launch dashboard at http://localhost:9194
 
-`make data` to work with the data
 
-`make query` work with the data using a terminal interface
 
