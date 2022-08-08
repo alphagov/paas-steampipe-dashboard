@@ -36,7 +36,7 @@ CF1               := CF_HOME=$(PAAS_ENVDIR)/dublin $(CF)
 CF2               := CF_HOME=$(PAAS_ENVDIR)/london $(CF)
 LOGIN1            := https://login.$(DUBLIN_DOMAIN)/passcode
 LOGIN2            := https://login.$(LONDON_DOMAIN)/passcode
-CSV_FILES         := organizations.csv routes.csv virtual_machines.csv
+CSV_FILES         := aws_accounts.csv organizations.csv routes.csv virtual_machines.csv
 CSV_FILES1        := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv organization_quotas.csv processes.csv security_groups.csv service_brokers.csv service_instances.csv service_offerings.csv service_plans.csv service_route_bindings.csv spaces.csv space_quotas.csv stacks.csv users.csv
 STEAMPIPE_PLUGINS := config csv github net rss prometheus terraform zendesk
 
@@ -89,6 +89,9 @@ docs/datamodel.svg: docs/datamodel.drawio
 docs/datamodel.png: docs/datamodel.drawio
 	$(DRAWIO) -x -e  -o $@ $<
 
+aws_accounts.csv:
+	bin/aws_accounts > $@
+
 organizations.csv:
 	$(CF1) curl '/v3/organizations?per_page=5000' |\
 	  $(JQ) --arg region dublin -r '.resources[] | [.metadata.annotations.owner, $$region, .name, .guid, .relationships.quota.data.guid, .created_at, .suspended] | @csv' |\
@@ -122,17 +125,18 @@ virtual_machines.csv:
 dependencies:
 	mkdir -p $(PAAS_ENVDIR)/dublin             
 	mkdir -p $(PAAS_ENVDIR)/london
-	pip3 install -r requirements.txt           # python dependencies
-	type cf || brew install cf-cli@8           # Cloud Foundry CLI
-	brew install drawio                        # drawio diagram editor
-	type gawk || brew install gawk             # GNU awk	
-	type gh || brew install gh                 # github cli
-	type glow || brew install glow             # glow cli for handling markdown
-	type gsed || brew install gnu-sed          # GNU sed
-	type jq || brew install jq.                # JSON wrangling tool
-	type steampipe || brew install steampipe   # make cloud apis queryable via SQL 
-	type yq || brew install yq                 # YAML tools
-	$(STEAMPIPE) plugin install $(STEAMPIPE_PLUGINS) 
+	pip3 install -r requirements.txt                 # python dependencies
+	type cf || brew install cf-cli@8                 # Cloud Foundry CLI
+	type gds || brew install alphagov/gds/gds-cli    # GDS CLI (needs ssh config)
+	brew install drawio                              # drawio diagram editor
+	type gawk || brew install gawk                   # GNU awk	
+	type gh || brew install gh                       # github cli
+	type glow || brew install glow                   # glow cli for handling markdown
+	type gsed || brew install gnu-sed                # GNU sed
+	type jq || brew install jq.                      # JSON wrangling tool
+	type steampipe || brew install steampipe         # make cloud apis queryable via SQL 
+	type yq || brew install yq                       # YAML wrangling tool
+	$(STEAMPIPE) plugin install $(STEAMPIPE_PLUGINS) # install plugins
 
 dashboard:       ; @echo "http://localhost:9194/paas-dashboard.dashboard.paas";  $(STEAMPIPE) dashboard --browser=false --workspace-chdir dashboards ; 
 edit-csv:        ;$(VISIDATA) *.csv
