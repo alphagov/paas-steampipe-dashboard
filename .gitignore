@@ -3,6 +3,7 @@
 *.zip
 *.tar
 *.json
+*.dtmp
 .vscode
 data
 .DS_Store

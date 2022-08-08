@@ -90,7 +90,13 @@ docs/datamodel.png: docs/datamodel.drawio
 	$(DRAWIO) -x -e  -o $@ $<
 
 aws_accounts.csv:
-	bin/aws_accounts > $@
+	(echo "---";\
+	echo "accounts:";\
+	for e in `gds aws | grep paas | gsed -E -e 's/^[ \t]+//' -e 's/ +[a-zA-Z0-9_ /t]+//' | sort`;\
+	do \
+  		echo "  -";\
+  		gds aws $$e -d --skip-ip-range-checks | gsed -E 's/^/    /';\
+	done) | yq -o json | in2csv -f json -k accounts > $@
 
 organizations.csv:
 	$(CF1) curl '/v3/organizations?per_page=5000' |\
@@ -115,6 +121,12 @@ routes.csv:
 	$(CF2) curl '/v3/routes?page=2&per_page=5000' | $(IN2CSV) -f json -k resources | $(SED) 1d >> routes-london.csv
 	$(CSVSTACK) -g dublin,london -n region routes-dublin.csv routes-london.csv > $@
 	$(RM) routes-dublin.csv routes-london.csv 
+
+schemata.csv: 
+	(for f in *.csv;\
+	do \
+	  csvcut $$f -n | gsed -E -e "s/^ +/$$f,/" -e "s/: +/,/";\
+	done) |  bin/header -a 'file,seq,field' > $@
 
 virtual_machines.csv:
 	$(CURL)  $(PAAS_CF_REPO)/main/manifests/cf-manifest/env-specific/prod.yml | $(GREP) _instances | $(SED) -E -e 's/_instances//' -e 's/: /,/' -e 's/^/production,dublin,/' | $(SORT) | $(HEADER) -a environment,region,vm_type,vm_count > $@
@@ -146,4 +158,3 @@ kanban:          ;$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard
 publish-model:   docs/datamodel.svg docs/datamodel.png
 	$(GIT) add 
 query:           ;$(STEAMPIPE) query	start: ;$(STEAMPIPE service start)
-
