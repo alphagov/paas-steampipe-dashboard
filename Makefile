@@ -124,6 +124,7 @@ dependencies:
 	mkdir -p $(PAAS_ENVDIR)/london
 	pip3 install -r requirements.txt           # python dependencies
 	type cf || brew install cf-cli@8           # Cloud Foundry CLI
+	type copilot || brew install aws/tap/copilot-cli # colilot CLI for ECS
 	brew install drawio                        # drawio diagram editor
 	type gawk || brew install gawk             # GNU awk	
 	type gh || brew install gh                 # github cli
