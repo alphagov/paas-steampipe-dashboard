@@ -6,4 +6,8 @@ The `extract-data` target in the [Makefile](../Makefile) extracts flattens the j
 
 The fields are defined in the [schemata](schemata.md)
 
+The field names may include odd names like `relationships/organization/data` which is a result of taking the data from the api and flattening with [in2csv](https://csvkit.readthedocs.io/en/latest/scripts/in2csv.html) you will need to escape the names with double quotes in the SQL. 
+
+`select "relationships/space/data/guid" from service_instances`
+
 ![data model](datamodel.png)
