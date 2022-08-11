@@ -171,6 +171,7 @@ edit-model:      docs/datamodel.drawio ; $(DRAWIO) $<
 issues:          ;$(GH) issue list
 kanban:          ;$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard/projects/1
 open:            ;$(OPEN) http://localhost:9194
-publish-model:   docs/datamodel.svg docs/datamodel.png
-	$(GIT) add 
+publish-model:   docs/datamodel.svg docs/datamodel.png docs/schemata.md
+	$(GIT) add $^
+	$(GIT) commit -m "refresh model" 
 query:           ;$(STEAMPIPE) query	start: ;$(STEAMPIPE service start)
