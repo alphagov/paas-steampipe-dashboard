@@ -98,6 +98,21 @@ aws_accounts.csv:
   		gds aws $$e -d --skip-ip-range-checks | gsed -E 's/^/    /';\
 	done) | yq -o json | in2csv -f json -k accounts > $@
 
+docs/schemata.md:
+	(echo '<!-- generated file so do not edit by hand! -->';\
+	echo '# Schemata';\
+	echo;\
+	for f in *.csv;\
+	do \
+		echo "##  $$f";\
+		echo;\
+		echo '|seq|field|';\
+		echo '---|------|';\
+		csvcut -n $$f | gsed -E -e 's/ +/|/' -e 's/: /|/' -e 's/$$/|/';\
+		echo;\
+	done ) > $@
+
+
 organizations.csv:
 	$(CF1) curl '/v3/organizations?per_page=5000' |\
 	  $(JQ) --arg region dublin -r '.resources[] | [.metadata.annotations.owner, $$region, .name, .guid, .relationships.quota.data.guid, .created_at, .suspended] | @csv' |\
@@ -156,6 +171,7 @@ edit-model:      docs/datamodel.drawio ; $(DRAWIO) $<
 issues:          ;$(GH) issue list
 kanban:          ;$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard/projects/1
 open:            ;$(OPEN) http://localhost:9194
-publish-model:   docs/datamodel.svg docs/datamodel.png
-	$(GIT) add 
+publish-model:   docs/datamodel.svg docs/datamodel.png docs/schemata.md
+	$(GIT) add $^
+	$(GIT) commit -m "refresh model" 
 query:           ;$(STEAMPIPE) query	start: ;$(STEAMPIPE service start)
