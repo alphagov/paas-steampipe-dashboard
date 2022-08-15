@@ -26,13 +26,24 @@ The dashboards pull data from the underlying csv files using SQL and render the 
 
 ## 1. logs into Cloud Foundry using the CF CLI 
 
- `cf login --sso`
+`cf login --sso`
 
 ## 2. extracts data as csv format from the CF API 
 
+
 `cf curl` converting JSON into CSV using csvkit's [in2csv](https://csvkit.readthedocs.io/en/latest/scripts/in2csv.html)
 
-## 3. launches steampipe dashboard
+## 3. Logs into AWS using GDS CLI and assumes a role with read only permissions 
+
+`gds aws paas-prod-ro`
+
+## 4. extracts AWS data into CSV using steampipe query
+
+`steampipe query query.sql -- output csv | gsed -E '/^$/d'`
+
+delete blank lines because steampipe adda a blank line to the end of the file  
+
+## 5. launches steampipe dashboard
 
 render results locally accessing data from plugins, running SQL queries against the normalised data using postgresql
 
