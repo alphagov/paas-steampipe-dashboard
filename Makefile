@@ -11,6 +11,7 @@ CSVSTACK          := csvstack
 CSVTOTABLE        := csvtotable
 CURL              := curl -s
 DRAWIO            := /Applications/draw.io.app/Contents/MacOS/draw.io
+GDS_CLI           := ./hack/gds  #use local version of gds unti pr to include ro access is merged
 GH                := gh
 GIT               := git
 GLOW              := glow
@@ -26,6 +27,7 @@ STEAMPIPE         := steampipe
 TEE               := tee
 VISIDATA          := vd
 
+PAAS_PROFILE     := paas-prod-ro  # user read only creds against production
 CF_ORG            := admin
 CF_SPACE          := billing
 PAAS_CF_REPO      := https://raw.githubusercontent.com/alphagov/paas-cf
@@ -36,7 +38,7 @@ CF1               := CF_HOME=$(PAAS_ENVDIR)/dublin $(CF)
 CF2               := CF_HOME=$(PAAS_ENVDIR)/london $(CF)
 LOGIN1            := https://login.$(DUBLIN_DOMAIN)/passcode
 LOGIN2            := https://login.$(LONDON_DOMAIN)/passcode
-CSV_FILES         := aws_accounts.csv organizations.csv routes.csv virtual_machines.csv
+CSV_FILES         := aws_accounts.csv ec2_instances.csv organizations.csv rds_db_instances.csv routes.csv s3_buckets.csv virtual_machines.csv
 CSV_FILES1        := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv organization_quotas.csv processes.csv security_groups.csv service_brokers.csv service_instances.csv service_offerings.csv service_plans.csv service_route_bindings.csv spaces.csv space_quotas.csv stacks.csv users.csv
 STEAMPIPE_PLUGINS := config csv github net rss prometheus terraform zendesk
 
@@ -88,6 +90,15 @@ docs/datamodel.svg: docs/datamodel.drawio
 
 docs/datamodel.png: docs/datamodel.drawio
 	$(DRAWIO) -x -e  -o $@ $<
+
+ec2_instances.csv:
+	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/ec2_instances.sql --output csv  | $(SED) -E '/^$$/d' > $@
+
+rds_db_instances.csv:
+	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/rds_instances.sql --output csv  | $(SED) -E '/^$$/d' > $@
+
+s3_buckets.csv:
+	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/s3_buckets.sql --output csv  | $(SED) -E '/^$$/d' > $@
 
 aws_accounts.csv:
 	(echo "---";\
@@ -165,6 +176,8 @@ dependencies:
 	type yq || brew install yq                       # YAML wrangling tool
 	$(STEAMPIPE) plugin install $(STEAMPIPE_PLUGINS) # install plugins
 
+aws-query:    	 ; $(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query
+aws-console:     ; $(GDS_CLI) aws $(PAAS_PROFILE) -l
 dashboard:       ; @echo "http://localhost:9194/paas-dashboard.dashboard.paas";  $(STEAMPIPE) dashboard --browser=false --workspace-chdir dashboards ; 
 edit-csv:        ;$(VISIDATA) *.csv
 edit-model:      docs/datamodel.drawio ; $(DRAWIO) $<
@@ -174,4 +187,8 @@ open:            ;$(OPEN) http://localhost:9194
 publish-model:   docs/datamodel.svg docs/datamodel.png docs/schemata.md
 	$(GIT) add $^
 	$(GIT) commit -m "refresh model" 
-query:           ;$(STEAMPIPE) query	start: ;$(STEAMPIPE service start)
+query:           ;$(STEAMPIPE) query start: ;$(STEAMPIPE service start)
+
+hack.csv:
+	@echo $@
+	@echo $(@:.csv=.sql)
