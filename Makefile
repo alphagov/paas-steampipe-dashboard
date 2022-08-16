@@ -1,4 +1,5 @@
 SHELL             := /usr/local/bin/bash
+AIVEN_CLI         := avn
 AWK               := gawk
 CF                := cf
 CSVCUT            := csvcut
@@ -27,7 +28,7 @@ STEAMPIPE         := steampipe
 TEE               := tee
 VISIDATA          := vd
 
-PAAS_PROFILE     := paas-prod-ro  # user read only creds against production
+PAAS_PROFILE      := paas-prod-ro  # user read only creds against production
 CF_ORG            := admin
 CF_SPACE          := billing
 PAAS_CF_REPO      := https://raw.githubusercontent.com/alphagov/paas-cf
@@ -38,7 +39,9 @@ CF1               := CF_HOME=$(PAAS_ENVDIR)/dublin $(CF)
 CF2               := CF_HOME=$(PAAS_ENVDIR)/london $(CF)
 LOGIN1            := https://login.$(DUBLIN_DOMAIN)/passcode
 LOGIN2            := https://login.$(LONDON_DOMAIN)/passcode
-CSV_FILES         := aws_accounts.csv ec2_instances.csv organizations.csv rds_db_instances.csv routes.csv s3_buckets.csv virtual_machines.csv
+AIVEN_FILES       := aiven_services.json
+AWS_FILES         := ec2_instances.csv ec2_instance_types.csv rds_db_instances.csv sqs_queues.csv s3_buckets.csv vpcs.csv
+CSV_FILES         := $(AIVEN_FILES) $(AWS_FILES) aws_accounts.csv organizations.csv routes.csv virtual_machines.csv
 CSV_FILES1        := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv organization_quotas.csv processes.csv security_groups.csv service_brokers.csv service_instances.csv service_offerings.csv service_plans.csv service_route_bindings.csv spaces.csv space_quotas.csv stacks.csv users.csv
 STEAMPIPE_PLUGINS := config csv github net rss prometheus terraform zendesk
 
@@ -52,7 +55,6 @@ endef
 status: README.md
 	@$(GLOW) $<
 	@$(GH) issue list
-
 
 all: login extract-data dashboard
 
@@ -91,14 +93,11 @@ docs/datamodel.svg: docs/datamodel.drawio
 docs/datamodel.png: docs/datamodel.drawio
 	$(DRAWIO) -x -e  -o $@ $<
 
-ec2_instances.csv:
-	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/ec2_instances.sql --output csv  | $(SED) -E '/^$$/d' > $@
+aiven_services.json:
+	$(AIVEN_CLI) service list --json > $@ 
 
-rds_db_instances.csv:
-	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/rds_instances.sql --output csv  | $(SED) -E '/^$$/d' > $@
-
-s3_buckets.csv:
-	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/s3_buckets.sql --output csv  | $(SED) -E '/^$$/d' > $@
+$(AWS_FILES):
+	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/$(@:.csv=.sql) --output csv  | $(SED) -E '/^$$/d' > $@
 
 aws_accounts.csv:
 	(echo "---";\
@@ -188,7 +187,3 @@ publish-model:   docs/datamodel.svg docs/datamodel.png docs/schemata.md
 	$(GIT) add $^
 	$(GIT) commit -m "refresh model" 
 query:           ;$(STEAMPIPE) query start: ;$(STEAMPIPE service start)
-
-hack.csv:
-	@echo $@
-	@echo $(@:.csv=.sql)

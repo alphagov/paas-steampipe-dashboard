@@ -1,2 +1,3 @@
+aiven-cli
 csvkit
 visidata
