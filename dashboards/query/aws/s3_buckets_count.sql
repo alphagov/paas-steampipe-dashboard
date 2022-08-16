@@ -1,5 +1,5 @@
 select
-  count(*) 
+  count(*) as s3_bucket_count
 from 
-  s3_bucket
+  s3_buckets
 

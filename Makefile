@@ -40,7 +40,7 @@ CF2               := CF_HOME=$(PAAS_ENVDIR)/london $(CF)
 LOGIN1            := https://login.$(DUBLIN_DOMAIN)/passcode
 LOGIN2            := https://login.$(LONDON_DOMAIN)/passcode
 AIVEN_FILES       := aiven_services.json
-AWS_FILES         := ec2_instances.csv ec2_instance_types.csv rds_db_instances.csv sqs_queues.csv s3_buckets.csv vpcs.csv
+AWS_FILES         := ec2_instances.csv ec2_instance_types.csv elasticache_clusters.csv rds_db_instances.csv sqs_queues.csv s3_buckets.csv vpcs.csv
 CSV_FILES         := $(AIVEN_FILES) $(AWS_FILES) aws_accounts.csv organizations.csv routes.csv virtual_machines.csv
 CSV_FILES1        := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv organization_quotas.csv processes.csv security_groups.csv service_brokers.csv service_instances.csv service_offerings.csv service_plans.csv service_route_bindings.csv spaces.csv space_quotas.csv stacks.csv users.csv
 STEAMPIPE_PLUGINS := config csv github net rss prometheus terraform zendesk
@@ -71,9 +71,6 @@ login:
 	open $(LOGIN1)
 	$(CF1) api https://api.cloud.service.gov.uk
 	$(CF1) login --sso -o $(CF_ORG) -s $(CF_SPACE)
-	open $(LOGIN2)
-	$(CF2) api https://api.london.cloud.service.gov.uk
-	$(CF2) login --sso -o $(CF_ORG) -s $(CF_SPACE)
 	open $(LOGIN2)
 	$(CF2) api https://api.london.cloud.service.gov.uk
 	$(CF2) login --sso -o $(CF_ORG) -s $(CF_SPACE)
