@@ -18,6 +18,28 @@ dashboard "paas" {
       base = card.buildpacks_count
     }
   }
+  
+  container {
+    title = "AWS"
+    card {
+        base = card.vpcs_count
+      }
+      card {
+        base = card.ec2_instances_count
+      }
+      card {
+        base = card.rds_db_instances_count
+      }
+      card {
+        base = card.s3_buckets_count
+      }
+      card {
+        base = card.sqs_queues_count
+      }
+      card {
+        base = card.elasticache_clusters_count
+      }
+  }
 
   container {
     title = "Tenants"
@@ -48,6 +70,16 @@ dashboard "paas" {
     }
     card {
       base = card.shared_routes_count
+    }
+  }
+
+  container {
+    title = "Applications and processes"
+    card {
+      base = card.apps_count
+    }
+    card {
+      base = card.processes_count
     }
   }
 
