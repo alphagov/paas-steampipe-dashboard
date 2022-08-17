@@ -1,7 +1,7 @@
 
 # GOV.UK PaaS dashboard
 
-a 🔥 [firebreak](https://insidegovuk.blog.gov.uk/2018/05/03/firebreaks-on-gov-uk/) experiment using [Steampipe](https://steampipe.io/) to make a dashboard to monitor [GOV.UK PaaS](https://cloud.service.gov.uk) platform things.
+a 🔥 [firebreak](https://insidegovuk.blog.gov.uk/2018/05/03/firebreaks-on-gov-uk/) experiment using [Steampipe](https://steampipe.io/) to make a dashboard to monitor the [GOV.UK PaaS](https://cloud.service.gov.uk) platform.
 
 Initially it runs locally but it will be deployed to the cloud at some point for the team to access. 
 
@@ -15,12 +15,12 @@ see [kanban](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1)
 
 This dashboard uses [steampipe.io](https://steampipe.io) to build a set of dashboards over [GOV.UK PaaS](https://cloud.service.gov.uk).
 
-It uses the [CF CLI](https://github.com/cloudfoundry/cli) to access the API and list resources, 
+It uses the [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) to access the Cloud Foundry API and list resources, 
 the data is saved locally as csv files and accessed from a local steampipe dashboard running at http://localhost:9194
 
-it uses a number of plugins configured in [dashboards/mod.sp](dashboards/mod.sp)
+It uses the plugins configured in [dashboards/mod.sp](dashboards/mod.sp)
 
-The dashboards pull data from the underlying csv files using SQL and render the results as a dashboard.
+The [dashboards](/dashboards) pull data from the underlying csv files using SQL and render the results as a dashboard.
 
 # How it works
 
@@ -31,9 +31,9 @@ The dashboards pull data from the underlying csv files using SQL and render the 
 ## 2. extracts data as csv format from the CF API 
 
 
-`cf curl` converting JSON into CSV using csvkit's [in2csv](https://csvkit.readthedocs.io/en/latest/scripts/in2csv.html)
+`cf curl /v3/foobar | in2csv -f json -k resources` converting JSON into CSV using csvkit's [in2csv](https://csvkit.readthedocs.io/en/latest/scripts/in2csv.html)
 
-## 3. Logs into AWS using GDS CLI and assumes a role with read only permissions 
+## 3. Logs into AWS using GDS CLI using MFA and assumes a role with read only permissions 
 
 `gds aws paas-prod-ro`
 
@@ -41,17 +41,17 @@ The dashboards pull data from the underlying csv files using SQL and render the 
 
 `steampipe query query.sql -- output csv | gsed -E '/^$/d'`
 
-delete blank lines because steampipe adda a blank line to the end of the file  
+Delete blank lines because steampipe adds a blank line to the end of the file.
 
 ## 5. launches steampipe dashboard
 
-render results locally accessing data from plugins, running SQL queries against the normalised data using postgresql
+Render results locally accessing data from plugins, running SQL queries against the normalised data using postgresql
 
 Read about the [data model](docs/datamodel.md)
 
 # Prerequisites
 
-Assumes you are on a mac with homebrew installed with `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+Assumes you are on a mac with [homebrew](https://brew.sh) installed with `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 
 ```
 # homebrew packages
@@ -75,7 +75,7 @@ a [GOV.UK PaaS account](https://cloud.service.gov.uk) with [global auditor](http
 
 ## 1. installation
 
-git clone https://github.com/pauldougan/paas-steampipe-dashboard
+`git clone https://github.com/pauldougan/paas-steampipe-dashboard`
 
 `cd paas-steampipe-dashboard`
 
@@ -89,11 +89,15 @@ see [config](config) for examples
 
 ## 3. extract data
 
-`make all` to login, extract data and run dashboard
+`make all` to login to Cloud Foundry, extract data and run dashboard
 
 ## 4. run dashboard 
   
 `make dashboard` to run the dashboard with the current data and launch dashboard at http://localhost:9194
+
+## 5. work with data
+
+`make edit-csvs`
 
 
 
