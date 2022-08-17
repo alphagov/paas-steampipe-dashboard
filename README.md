@@ -1,7 +1,7 @@
 
 # GOV.UK PaaS dashboard
 
-a 🔥 [firebreak](https://insidegovuk.blog.gov.uk/2018/05/03/firebreaks-on-gov-uk/) experiment using [Steampipe](https://steampipe.io/) to make a dashboard to monitor the [GOV.UK PaaS](https://cloud.service.gov.uk) platform.
+a [:fire: firebreak](https://insidegovuk.blog.gov.uk/2018/05/03/firebreaks-on-gov-uk/) experiment using [Steampipe](https://steampipe.io/) to make a dashboard to monitor the [GOV.UK PaaS](https://cloud.service.gov.uk) platform.
 
 Initially it runs locally but it will be deployed to the cloud at some point for the team to access. 
 
@@ -75,7 +75,7 @@ a [GOV.UK PaaS account](https://cloud.service.gov.uk) with [global auditor](http
 
 ## 1. installation
 
-`git clone https://github.com/pauldougan/paas-steampipe-dashboard`
+git clone https://github.com/pauldougan/paas-steampipe-dashboard
 
 `cd paas-steampipe-dashboard`
 
