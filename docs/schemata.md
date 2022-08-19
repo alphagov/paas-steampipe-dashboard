@@ -1,30 +1,6 @@
 <!-- generated file so do not edit by hand! -->
 # Schemata
 
-##  apps-with-buildpacks.csv
-
-|seq|field|
----|------|
-|1|region|
-|2|org|
-|3|space|
-|4|application|
-|5|buildpack_name|
-|6|type|
-|7|custom|
-|8|additional_buidpack|
-
-##  apps-with-docker.csv
-
-|seq|field|
----|------|
-|1|region|
-|2|org|
-|3|space|
-|4|application|
-|5|registry|
-|6|image|
-
 ##  apps.csv
 
 |seq|field|
@@ -61,17 +37,6 @@
 |30|metadata/labels/deployed_by|
 |31|lifecycle/data/buildpacks/2|
 |32|metadata/labels/prometheus|
-
-##  aws_accounts.csv
-
-|seq|field|
----|------|
-|1|Name|
-|2|Description|
-|3|Category|
-|4|AccountNumber|
-|5|RoleName|
-|6|RoleArn|
 
 ##  bills.csv
 
@@ -149,63 +114,6 @@
 |21|title|
 |22|akas|
 
-##  ec2_instances.csv
-
-|seq|field|
----|------|
-|1|instance_id|
-|2|arn|
-|3|instance_type|
-|4|instance_state|
-|5|monitoring_state|
-|6|disable_api_termination|
-|7|cpu_options_core_count|
-|8|cpu_options_threads_per_core|
-|9|ebs_optimized|
-|10|hypervisor|
-|11|iam_instance_profile_arn|
-|12|iam_instance_profile_id|
-|13|image_id|
-|14|instance_initiated_shutdown_behavior|
-|15|instance_lifecycle|
-|16|kernel_id|
-|17|key_name|
-|18|launch_time|
-|19|metadata_options|
-|20|outpost_arn|
-|21|placement_availability_zone|
-|22|placement_group_name|
-|23|placement_tenancy|
-|24|private_ip_address|
-|25|private_dns_name|
-|26|public_dns_name|
-|27|public_ip_address|
-|28|ram_disk_id|
-|29|root_device_name|
-|30|root_device_type|
-|31|source_dest_check|
-|32|sriov_net_support|
-|33|state_code|
-|34|state_transition_time|
-|35|subnet_id|
-|36|user_data|
-|37|virtualization_type|
-|38|vpc_id|
-|39|elastic_gpu_associations|
-|40|elastic_inference_accelerator_associations|
-|41|block_device_mappings|
-|42|network_interfaces|
-|43|product_codes|
-|44|security_groups|
-|45|instance_status|
-|46|tags_src|
-|47|title|
-|48|tags|
-|49|akas|
-|50|partition|
-|51|region|
-|52|account_id|
-
 ##  elasticache_clusters.csv
 
 |seq|field|
@@ -252,63 +160,6 @@
 |4|updated_at|
 |5|custom_error_message|
 |6|links/self/href|
-
-##  hack_ec2_instances.csv
-
-|seq|field|
----|------|
-|1|instance_id|
-|2|arn|
-|3|instance_type|
-|4|instance_state|
-|5|monitoring_state|
-|6|disable_api_termination|
-|7|cpu_options_core_count|
-|8|cpu_options_threads_per_core|
-|9|ebs_optimized|
-|10|hypervisor|
-|11|iam_instance_profile_arn|
-|12|iam_instance_profile_id|
-|13|image_id|
-|14|instance_initiated_shutdown_behavior|
-|15|instance_lifecycle|
-|16|kernel_id|
-|17|key_name|
-|18|launch_time|
-|19|metadata_options|
-|20|outpost_arn|
-|21|placement_availability_zone|
-|22|placement_group_name|
-|23|placement_tenancy|
-|24|private_ip_address|
-|25|private_dns_name|
-|26|public_dns_name|
-|27|public_ip_address|
-|28|ram_disk_id|
-|29|root_device_name|
-|30|root_device_type|
-|31|source_dest_check|
-|32|sriov_net_support|
-|33|state_code|
-|34|state_transition_time|
-|35|subnet_id|
-|36|user_data|
-|37|virtualization_type|
-|38|vpc_id|
-|39|elastic_gpu_associations|
-|40|elastic_inference_accelerator_associations|
-|41|block_device_mappings|
-|42|network_interfaces|
-|43|product_codes|
-|44|security_groups|
-|45|instance_status|
-|46|tags_src|
-|47|title|
-|48|tags|
-|49|akas|
-|50|partition|
-|51|region|
-|52|account_id|
 
 ##  isolation_segments.csv
 
@@ -374,6 +225,17 @@
 |2|name|
 |3|abbreviation|
 |4|uri|
+
+##  paas_accounts.csv
+
+|seq|field|
+---|------|
+|1|Name|
+|2|Description|
+|3|Category|
+|4|AccountNumber|
+|5|RoleName|
+|6|RoleArn|
 
 ##  processes.csv
 
