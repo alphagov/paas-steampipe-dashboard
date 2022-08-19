@@ -1,9 +1,9 @@
-card "statuspage" {
+card "statuspage_latest" {
     type = "info"
     icon = "information-circle"
     label = "statuspage latest"
-    sql = statuspage_latest.sql
-    width = "2"
+    sql = query.statuspage_latest.sql
+    width = "4"
 }
 
 table "statuspage" {
@@ -11,7 +11,7 @@ table "statuspage" {
     sql = query.statuspage_posts.sql
 }
 
-dashboard "statuspage" {
+dashboard "statuspage"  {
     title = "GOV.UK PaaS statuspage dashboard"
     card {
         base = card.statuspage_latest

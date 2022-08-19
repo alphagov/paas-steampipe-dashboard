@@ -48,11 +48,9 @@ dashboard "bills" {
     base = card.bills_last_bill_date
   }
   chart {
-    type = "column"
     base = chart.bills_total_by_region
   }
   chart {
-    type = "column"
     base = chart.bills_total_by_date
   }
   tags = {

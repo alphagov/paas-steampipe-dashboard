@@ -1,6 +1,6 @@
 select
   "ServiceName", count(*)
 from
-  services
+  service_instances
 order by 
   "ServiceName"

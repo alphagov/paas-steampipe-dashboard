@@ -4,7 +4,7 @@ select
   type,
   created_at
 from
-  services
+  service_instances
 order by 
   region,
   name,

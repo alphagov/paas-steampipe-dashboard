@@ -1,4 +1,6 @@
 select
-  count(*) as shared_domains
+  count(*) as public_domains
 from 
-  cf_shared_domain_v2 
+  domains 
+where 
+	internal = 'False'
