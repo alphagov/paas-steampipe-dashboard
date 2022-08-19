@@ -12,7 +12,7 @@ CSVSTACK          := csvstack
 CSVTOTABLE        := csvtotable
 CURL              := curl -s
 DRAWIO            := /Applications/draw.io.app/Contents/MacOS/draw.io
-GDS_CLI           := ./hack/gds  #use local version of gds unti pr to include ro access is merged
+GDS_CLI           := gds  #use  version of the gds binary that contains this commit https://github.com/alphagov/gds-cli/commit/229ffb7a80c87fa85b0e8068d5d8a04b05ecdddf i.e. v5.35.0-7-g229ffb7 or later
 GH                := gh
 GIT               := git
 GLOW              := glow
@@ -41,7 +41,7 @@ LOGIN1            := https://login.$(DUBLIN_DOMAIN)/passcode
 LOGIN2            := https://login.$(LONDON_DOMAIN)/passcode
 AIVEN_FILES       := aiven_services.json
 AWS_FILES         := ec2_instances.csv ec2_instance_types.csv elasticache_clusters.csv rds_db_instances.csv sqs_queues.csv s3_buckets.csv vpcs.csv
-CSV_FILES         := $(AIVEN_FILES) $(AWS_FILES) aws_accounts.csv organizations.csv routes.csv virtual_machines.csv
+CSV_FILES         := $(AIVEN_FILES) $(AWS_FILES)  organizations.csv paas_accounts.csv routes.csv virtual_machines.csv
 CSV_FILES1        := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv organization_quotas.csv processes.csv security_groups.csv service_brokers.csv service_instances.csv service_offerings.csv service_plans.csv service_route_bindings.csv spaces.csv space_quotas.csv stacks.csv users.csv
 STEAMPIPE_PLUGINS := config csv github net rss prometheus terraform zendesk
 
@@ -96,7 +96,7 @@ aiven_services.json:
 $(AWS_FILES):
 	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/$(@:.csv=.sql) --output csv  | $(SED) -E '/^$$/d' > $@
 
-aws_accounts.csv:
+paas_accounts.csv:
 	(echo "---";\
 	echo "accounts:";\
 	for e in `gds aws | grep paas | gsed -E -e 's/^[ \t]+//' -e 's/ +[a-zA-Z0-9_ /t]+//' | sort`;\
