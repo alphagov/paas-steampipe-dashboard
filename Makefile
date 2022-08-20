@@ -182,5 +182,5 @@ kanban:          ;$(OPEN) https://github.com/pauldougan/paas-steampipe-dashboard
 open:            ;$(OPEN) http://localhost:9194
 publish-model:   docs/datamodel.svg docs/datamodel.png docs/schemata.md
 	$(GIT) add $^
-	$(GIT) commit -m "refresh model" 
+	$(GIT) commit -m "refresh model"
 query:           ;$(STEAMPIPE) query start: ;$(STEAMPIPE service start)
