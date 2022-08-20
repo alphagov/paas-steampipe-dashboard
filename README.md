@@ -68,8 +68,14 @@ brew install yq            # YAML tools
 pip3 install csvkit        # csv wrangling tools
 pip3 install visidata      # data wrangling swiss army penknife tool
 ```
+that you are on the VPN 
 
-a [GOV.UK PaaS account](https://cloud.service.gov.uk) with [global auditor](https://docs.cloudfoundry.org/concepts/roles.html#permissions) permissions.
+you have a [GOV.UK PaaS account](https://cloud.service.gov.uk) with [global auditor](https://docs.cloudfoundry.org/concepts/roles.html#permissions) permissions and yiu are logged in using `make login`
+
+you are a gds-user with permisssions to assume role into all the paas infrastructure AWS accounts
+
+you have the aiven CLI configured with an access token to list services  
+
 
 # Usage
 
