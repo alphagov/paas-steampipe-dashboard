@@ -56,7 +56,7 @@ status: README.md
 	@$(GLOW) $<
 	@$(GH) issue list
 
-all: login extract-data dashboard
+data: login extract-data
 
 clean:
 	@echo clean platform data

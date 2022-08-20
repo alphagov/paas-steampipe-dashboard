@@ -68,14 +68,19 @@ brew install yq            # YAML tools
 pip3 install csvkit        # csv wrangling tools
 pip3 install visidata      # data wrangling swiss army penknife tool
 ```
+that you are on the VPN 
 
-a [GOV.UK PaaS account](https://cloud.service.gov.uk) with [global auditor](https://docs.cloudfoundry.org/concepts/roles.html#permissions) permissions.
+you have a [GOV.UK PaaS account](https://cloud.service.gov.uk) with [global auditor](https://docs.cloudfoundry.org/concepts/roles.html#permissions) permissions and yiu are logged in using `make login`
+
+you are a gds-user with permisssions to assume role into all the paas infrastructure AWS accounts
+
+you have the aiven CLI configured with an access token to list services  
+
 
 # Usage
 
-## 1. installation
+## 1. me -dashboardq I've got a show room upstairs bathroom things about sa
 
-git clone https://github.com/pauldougan/paas-steampipe-dashboard
 
 `cd paas-steampipe-dashboard`
 
@@ -89,11 +94,17 @@ see [config](config) for examples
 
 ## 3. extract data
 
-`make all` to login to Cloud Foundry, extract data and run dashboard
+you need creds to access the AWS accounts
+
+`gds aws paas-paas-ro -- make data`
+
+this logs into to AWS and Cloud Foundry, extracts data locally in csv format 
 
 ## 4. run dashboard 
   
 `make dashboard` to run the dashboard with the current data and launch dashboard at http://localhost:9194
+
+does not need Cloud Foundry or AWS creds because the dashboard uses local data
 
 ## 5. work with data
 
