@@ -1,3 +1,8 @@
--- number of days until the target decommission date for the paas platform
+-- number of calendar days until the target decommission date for the paas platform
 --- ${local.decommission_target_date}
-select date '2023-12-22' - current_date as countdown
+select 
+  (value::date - current_date) as days_to_decommission 
+from 
+  config 
+  where 
+    key = 'decommission_date'

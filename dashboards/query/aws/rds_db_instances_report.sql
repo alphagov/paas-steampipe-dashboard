@@ -36,5 +36,5 @@ select
   tags::jsonb ->> 'Service ID' as service_guid
   
 from
-  rds_db_instances
+  rds_db_instances i
   left join paas_accounts on i.account_id = paas_accounts.account_number 
