@@ -40,7 +40,7 @@ CF2               := CF_HOME=$(PAAS_ENVDIR)/london $(CF)
 LOGIN1            := https://login.$(DUBLIN_DOMAIN)/passcode
 LOGIN2            := https://login.$(LONDON_DOMAIN)/passcode
 AIVEN_FILES       := aiven_services.json
-AWS_FILES         := ec2_instances.csv ec2_instance_types.csv elasticache_clusters.csv rds_db_instances.csv sqs_queues.csv s3_buckets.csv vpcs.csv
+AWS_FILES         := ec2_instances.csv ec2_instance_types.csv application_load_balancers.csv cloudfront_distributions.csv ebs_snapshots.csv ebs_volumes.csv elasticache_clusters.csv network_load_balancers.csv rds_db_instances.csv rds_db_snapshots.csv sqs_queues.csv s3_buckets.csv vpcs.csv
 CSV_FILES         := $(AIVEN_FILES) $(AWS_FILES)  organizations.csv paas_accounts.csv routes.csv virtual_machines.csv
 CSV_FILES1        := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv organization_quotas.csv processes.csv security_groups.csv service_brokers.csv service_instances.csv service_offerings.csv service_plans.csv service_route_bindings.csv spaces.csv space_quotas.csv stacks.csv users.csv
 STEAMPIPE_PLUGINS := config csv github net rss prometheus terraform zendesk
@@ -92,6 +92,8 @@ docs/datamodel.png: docs/datamodel.drawio
 
 aiven_services.json:
 	$(AIVEN_CLI) service list --json > $@ 
+
+aws_data: $(AWS_FILES)
 
 $(AWS_FILES):
 	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/$(@:.csv=.sql) --output csv  | $(SED) -E '/^$$/d' > $@
@@ -172,6 +174,7 @@ dependencies:
 	type yq || brew install yq                       # YAML wrangling tool
 	$(STEAMPIPE) plugin install $(STEAMPIPE_PLUGINS) # install plugins
 
+aws-bash:    	 ; $(GDS_CLI) aws $(PAAS_PROFILE) -- bash
 aws-query:    	 ; $(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query
 aws-console:     ; $(GDS_CLI) aws $(PAAS_PROFILE) -l
 dashboard:       ; @echo "http://localhost:9194/paas-dashboard.dashboard.paas";  $(STEAMPIPE) dashboard --browser=false --workspace-chdir dashboards ; 
@@ -184,3 +187,6 @@ publish-model:   docs/datamodel.svg docs/datamodel.png docs/schemata.md
 	$(GIT) add $^
 	$(GIT) commit -m "refresh model"
 query:           ;$(STEAMPIPE) query start: ;$(STEAMPIPE service start)
+
+holidays.csv:
+	$(CURL) -s https://www.gov.uk/bank-holidays.json | $(JQ)  '."england-and-wales"'  | $(IN2CSV) -f json -k events  > $@
