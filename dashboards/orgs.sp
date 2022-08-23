@@ -28,6 +28,14 @@ card "orgs_count_suspended" {
   width = "2" 
 }
 
+card "orgs_count_billable" {
+  type = "alert"
+  icon = "hashtag"
+  label = "billable org count"
+  sql = query.orgs_count_billable.sql
+  width = "2" 
+}
+
 card "orgs_expiring_trials_count" {
   type = "alert"
   icon = "hashtag"
@@ -75,6 +83,9 @@ dashboard "orgs" {
   title = "GOV.UK PaaS orgs dashboard"
   input {
     base = input.regions
+  }
+  chart {
+    base = chart.orgs_by_department
   }
   tags = {
     service = "organisations"

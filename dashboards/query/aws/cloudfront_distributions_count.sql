@@ -1,4 +1,4 @@
 select
-  count(*) 
+  count(*) as cloudfront_count
 from 
   cloudfront_distributions

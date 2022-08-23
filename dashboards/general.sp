@@ -1,14 +1,27 @@
-  locals {
-    decommission_target_date = "2022-12-22"
-  } 
 
 card "countdown_days" {
     type = "info"
     icon = "hashtag"
-    label = "countdown"
+    label = "calendar days countdown"
     sql = query.countdown_days.sql
     width = 2
-  }
+}
+
+card "countdown_working_days" {
+    type = "info"
+    icon = "hashtag"
+    label = "working days countdown"
+    sql = query.countdown_working_days.sql
+    width = 2
+}
+
+card "countdown_weeks" {
+    type = "info"
+    icon = "hashtag"
+    label = "countdown"
+    sql = query.countdown_weeks.sql
+    width = 2
+}
 
 text "footer" {
     width = 8

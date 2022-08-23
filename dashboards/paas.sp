@@ -7,58 +7,39 @@ dashboard "paas" {
   type     = "dashboard"
   }
   container {  
-    title = "General"
+    title = "Countdown"
     card {
       base = card.countdown_days
     }
     card {
-      base = card.virtual_machines_count
+      base = card.countdown_working_days
     }
     card {
-      base = card.buildpacks_count
+      base = card.countdown_weeks
     }
-  }
-  
-  container {
-    title = "AWS"
-    card {
-        base = card.vpcs_count
-      }
-      card {
-        base = card.ec2_instances_count
-      }
-      card {
-        base = card.rds_db_instances_count
-      }
-      card {
-        base = card.s3_buckets_count
-      }
-      card {
-        base = card.sqs_queues_count
-      }
-      card {
-        base = card.elasticache_clusters_count
-      }
   }
 
   container {
     title = "Tenants"
-    card {
-      base = card.departments_count
-    }
-    card {
-      base = card.organisations_count
-    }
-    card {
-      base = card.users_count
-    }
-    card {
-      base = card.orgs_count_suspended
-    }
-    card {
-      base = card.orgs_expiring_trials_count
-    } 
+  card {
+    base = card.departments_count
   }
+  card {
+    base = card.organisations_count
+  }
+  card {
+    base = card.users_count
+  }
+  card {
+    base = card.orgs_count_billable
+  }
+  card {
+    base = card.orgs_count_suspended
+  }
+  card {
+    base = card.orgs_expiring_trials_count
+  } 
+} 
 
   container {
     title = "Domains and routes"
@@ -76,13 +57,16 @@ dashboard "paas" {
   container {
     title = "Applications and processes"
     card {
+      base = card.buildpacks_count
+    }
+    card {
       base = card.apps_count
     }
     card {
       base = card.processes_count
     }
   }
-
+  
   container {
     title = "Backing Services"    
     card {
@@ -90,28 +74,62 @@ dashboard "paas" {
     }
   }
 
+
+
   container {
-    title = "GitHub"
+    title = "AWS infrastructure"
+    card {
+      base = card.vpcs_count
+    }
+    card {
+      base = card.application_load_balancers_count
+    }
+    card {
+      base = card.ec2_instances_count
+    }
+    card {
+      base = card.cloudfront_distributions_count
+    }
+    card {
+      base = card.rds_db_instances_count
+    }
+    card {
+      base = card.s3_buckets_count
+    }
+    card {
+      base = card.sqs_queues_count
+    }
+    card {
+      base = card.elasticache_clusters_count
+    }
+  }
+
+  container {
+    title = "Aiven infrastructure"
+    card {
+      base = card.aiven_instances_count
+    }
+    card {
+      base = card.aiven_instances_count
+    }
+    card {
+      base = card.elasticsearch_count
+    }
+      card {
+      base = card.opensearch_count
+    }
+    card {
+      base = card.influxdb_count
+    }
+  }
+
+
+
+  container {
+    title = "Souce code"
     card {
       base = card.github_paas_repo_count
     }
-  }
-
-  container {
-    title = "Virtual machines"
-    chart {
-      base = chart.virtual_machines_by_type
-    }
-    chart {
-      base = chart.virtual_machines_by_region
-    }
-    chart {
-      base = chart.virtual_machines_by_environment
-    }
-  }
-
-  chart {
-    base = chart.orgs_by_department
   }
 
   container {

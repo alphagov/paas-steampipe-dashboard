@@ -1,3 +1,20 @@
+
+card "application_load_balancers_count" {
+  type = "info"
+  icon = "hashtag"
+  label = "application load balancers count"
+  sql = query.application_load_balancers_count.sql
+  width = "2"
+ }
+
+card "cloudfront_distributions_count" {
+  type = "info"
+  icon = "hashtag"
+  label = "cloudfront distributions count"
+  sql = query.cloudfront_distributions_count.sql
+  width = "2"
+ }
+
 card "ec2_instances_count" {
   type = "info"
   icon = "hashtag"
@@ -42,7 +59,7 @@ card "rds_db_instances_count" {
 
  table "rds_db_instances" {
   width = 12
-  sql = query.rds_db_instances.sql
+  sql = query.rds_db_instances_report.sql
  }
  
  card "vpcs_count" {
@@ -70,7 +87,13 @@ dashboard "aws" {
     base = card.vpcs_count
   }
   card {
+    base = card.application_load_balancers_count
+  }
+  card {
     base = card.ec2_instances_count
+  }
+  card {
+    base = card.cloudfront_distributions_count
   }
   card {
     base = card.rds_db_instances_count
