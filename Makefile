@@ -159,8 +159,8 @@ schemata.csv:
 	  csvcut $$f -n | gsed -E -e "s/^ +/$$f,/" -e "s/: +/,/";\
 	done) |  bin/header -a 'file,seq,field' > $@
 
-last-updated: config.csv
-	$(SED) -i -E -e "/^last_updated/s/,.*/,$(TIMESTAMP)/" config.csv
+last-updated: settings.csv
+	$(SED) -i -E -e "/^last_updated/s/,.*/,$(TIMESTAMP)/" $^
 
 virtual_machines.csv:
 	$(CURL)  $(PAAS_CF_REPO)/main/manifests/cf-manifest/env-specific/prod.yml | $(GREP) _instances | $(SED) -E -e 's/_instances//' -e 's/: /,/' -e 's/^/production,dublin,/' | $(SORT) | $(HEADER) -a environment,region,vm_type,vm_count > $@

@@ -30,6 +30,7 @@ processes.csv
 rds_db_instances.csv
 rds_db_snapshots.csv
 routes.csv
+settings.csv
 s3_buckets.csv
 schemata.csv
 security_groups.csv
