@@ -5,9 +5,11 @@
 *.zip
 .DS_Store
 .vscode
+application_load_balancers.csv
 apps.csv
 bills.csv
 buildpacks.csv
+cloudfront_distributions.csv
 domains.csv
 ebs_snapshots.csv
 ebs_volumes.csv
