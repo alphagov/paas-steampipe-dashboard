@@ -1,5 +1,5 @@
 SHELL             := /usr/local/bin/bash
-TIMESTAMP	  := $(shell date -Idate)
+TIMESTAMP	  := $(shell date -Iseconds)
 AIVEN_CLI         := avn
 AWK               := gawk
 CF                := cf
