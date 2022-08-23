@@ -1,3 +1,4 @@
 aiven-cli
 csvkit
+frictionless
 visidata
