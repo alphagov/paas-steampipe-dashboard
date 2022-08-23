@@ -1,6 +1,33 @@
 <!-- generated file so do not edit by hand! -->
 # Schemata
 
+##  application_load_balancers.csv
+
+|seq|field|
+---|------|
+|1|name|
+|2|arn|
+|3|type|
+|4|scheme|
+|5|canonical_hosted_zone_id|
+|6|vpc_id|
+|7|created_time|
+|8|customer_owned_ipv4_pool|
+|9|dns_name|
+|10|ip_address_type|
+|11|state_code|
+|12|state_reason|
+|13|availability_zones|
+|14|security_groups|
+|15|load_balancer_attributes|
+|16|tags_src|
+|17|tags|
+|18|title|
+|19|akas|
+|20|partition|
+|21|region|
+|22|account_id|
+
 ##  apps.csv
 
 |seq|field|
@@ -67,6 +94,52 @@
 |13|links/upload/href|
 |14|links/upload/method|
 
+##  cloudfront_distributions.csv
+
+|seq|field|
+---|------|
+|1|id|
+|2|arn|
+|3|status|
+|4|caller_reference|
+|5|comment|
+|6|default_root_object|
+|7|domain_name|
+|8|enabled|
+|9|e_tag|
+|10|http_version|
+|11|is_ipv6_enabled|
+|12|in_progress_invalidation_batches|
+|13|last_modified_time|
+|14|price_class|
+|15|web_acl_id|
+|16|active_trusted_key_groups|
+|17|active_trusted_signers|
+|18|aliases|
+|19|alias_icp_recordals|
+|20|cache_behaviors|
+|21|custom_error_responses|
+|22|default_cache_behavior|
+|23|logging|
+|24|origins|
+|25|origin_groups|
+|26|restrictions|
+|27|tags_src|
+|28|viewer_certificate|
+|29|title|
+|30|tags|
+|31|akas|
+|32|partition|
+|33|region|
+|34|account_id|
+
+##  config.csv
+
+|seq|field|
+---|------|
+|1|key|
+|2|value|
+
 ##  domains.csv
 
 |seq|field|
@@ -86,6 +159,62 @@
 |13|relationships/shared_organizations/data/0/guid|
 |14|links/organization/href|
 |15|links/shared_organizations/href|
+
+##  ebs_snapshots.csv
+
+|seq|field|
+---|------|
+|1|snapshot_id|
+|2|arn|
+|3|state|
+|4|volume_size|
+|5|volume_id|
+|6|encrypted|
+|7|start_time|
+|8|description|
+|9|kms_key_id|
+|10|data_encryption_key_id|
+|11|progress|
+|12|state_message|
+|13|owner_alias|
+|14|owner_id|
+|15|create_volume_permissions|
+|16|tags_src|
+|17|title|
+|18|tags|
+|19|akas|
+|20|partition|
+|21|region|
+|22|account_id|
+
+##  ebs_volumes.csv
+
+|seq|field|
+---|------|
+|1|volume_id|
+|2|arn|
+|3|volume_type|
+|4|state|
+|5|create_time|
+|6|auto_enable_io|
+|7|availability_zone|
+|8|encrypted|
+|9|fast_restored|
+|10|iops|
+|11|kms_key_id|
+|12|multi_attach_enabled|
+|13|outpost_arn|
+|14|size|
+|15|snapshot_id|
+|16|attachments|
+|17|product_codes|
+|18|tags_src|
+|19|title|
+|20|tags|
+|21|akas|
+|22|partition|
+|23|region|
+|24|account_id|
 
 ##  ec2_instance_types.csv
 
@@ -113,6 +242,63 @@
 |20|gpu_info|
 |21|title|
 |22|akas|
+
+##  ec2_instances.csv
+
+|seq|field|
+---|------|
+|1|instance_id|
+|2|arn|
+|3|instance_type|
+|4|instance_state|
+|5|monitoring_state|
+|6|disable_api_termination|
+|7|cpu_options_core_count|
+|8|cpu_options_threads_per_core|
+|9|ebs_optimized|
+|10|hypervisor|
+|11|iam_instance_profile_arn|
+|12|iam_instance_profile_id|
+|13|image_id|
+|14|instance_initiated_shutdown_behavior|
+|15|instance_lifecycle|
+|16|kernel_id|
+|17|key_name|
+|18|launch_time|
+|19|metadata_options|
+|20|outpost_arn|
+|21|placement_availability_zone|
+|22|placement_group_name|
+|23|placement_tenancy|
+|24|private_ip_address|
+|25|private_dns_name|
+|26|public_dns_name|
+|27|public_ip_address|
+|28|ram_disk_id|
+|29|root_device_name|
+|30|root_device_type|
+|31|source_dest_check|
+|32|sriov_net_support|
+|33|state_code|
+|34|state_transition_time|
+|35|subnet_id|
+|36|user_data|
+|37|virtualization_type|
+|38|vpc_id|
+|39|elastic_gpu_associations|
+|40|elastic_inference_accelerator_associations|
+|41|block_device_mappings|
+|42|network_interfaces|
+|43|product_codes|
+|44|security_groups|
+|45|instance_status|
+|46|tags_src|
+|47|title|
+|48|tags|
+|49|akas|
+|50|partition|
+|51|region|
+|52|account_id|
 
 ##  elasticache_clusters.csv
 
@@ -161,6 +347,15 @@
 |5|custom_error_message|
 |6|links/self/href|
 
+##  holidays.csv
+
+|seq|field|
+---|------|
+|1|title|
+|2|date|
+|3|notes|
+|4|bunting|
+
 ##  isolation_segments.csv
 
 |seq|field|
@@ -172,6 +367,33 @@
 |5|name|
 |6|links/self/href|
 |7|links/organizations/href|
+
+##  network_load_balancers.csv
+
+|seq|field|
+---|------|
+|1|name|
+|2|arn|
+|3|type|
+|4|scheme|
+|5|canonical_hosted_zone_id|
+|6|created_time|
+|7|customer_owned_ipv4_pool|
+|8|dns_name|
+|9|ip_address_type|
+|10|state_code|
+|11|state_reason|
+|12|vpc_id|
+|13|availability_zones|
+|14|security_groups|
+|15|load_balancer_attributes|
+|16|tags_src|
+|17|tags|
+|18|title|
+|19|akas|
+|20|partition|
+|21|region|
+|22|account_id|
 
 ##  organization_quotas.csv
 
@@ -217,15 +439,6 @@
 |6|created|
 |7|suspended|
 
-##  owners.csv
-
-|seq|field|
----|------|
-|1|owner_guid|
-|2|name|
-|3|abbreviation|
-|4|uri|
-
 ##  paas_accounts.csv
 
 |seq|field|
@@ -236,6 +449,15 @@
 |4|AccountNumber|
 |5|RoleName|
 |6|RoleArn|
+
+##  paas_owners.csv
+
+|seq|field|
+---|------|
+|1|owner_guid|
+|2|name|
+|3|abbreviation|
+|4|uri|
 
 ##  processes.csv
 
@@ -343,6 +565,47 @@
 |73|partition|
 |74|region|
 |75|account_id|
+
+##  rds_db_snapshots.csv
+
+|seq|field|
+---|------|
+|1|db_snapshot_identifier|
+|2|arn|
+|3|type|
+|4|status|
+|5|create_time|
+|6|allocated_storage|
+|7|availability_zone|
+|8|db_instance_identifier|
+|9|dbi_resource_id|
+|10|encrypted|
+|11|engine|
+|12|engine_version|
+|13|iam_database_authentication_enabled|
+|14|instance_create_time|
+|15|iops|
+|16|kms_key_id|
+|17|license_model|
+|18|master_user_name|
+|19|option_group_name|
+|20|percent_progress|
+|21|port|
+|22|source_db_snapshot_identifier|
+|23|source_region|
+|24|storage_type|
+|25|tde_credential_arn|
+|26|timezone|
+|27|vpc_id|
+|28|db_snapshot_attributes|
+|29|processor_features|
+|30|tags_src|
+|31|tags|
+|32|title|
+|33|akas|
+|34|partition|
+|35|region|
+|36|account_id|
 
 ##  routes.csv
 
