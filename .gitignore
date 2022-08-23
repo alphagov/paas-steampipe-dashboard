@@ -5,6 +5,7 @@
 *.zip
 .DS_Store
 .vscode
+aiven_instances.csv
 application_load_balancers.csv
 apps.csv
 bills.csv
