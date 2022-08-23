@@ -1,11 +1,14 @@
 
 # GOV.UK PaaS dashboard
 
-a [:fire: firebreak](https://insidegovuk.blog.gov.uk/2018/05/03/firebreaks-on-gov-uk/) experiment using [Steampipe](https://steampipe.io/) to make a dashboard to monitor the [GOV.UK PaaS](https://cloud.service.gov.uk) platform.
+A dashboard to monitor the [GOV.UK PaaS](https://cloud.service.gov.uk) platform.
 
-Initially it runs locally but it will be deployed to the cloud at some point for the team to access. 
+Uses [Steampipe](https://steampipe.io/) to access all the component parts from the underlying infrastructure in AWS and Aiven through to the Cloud Foundey core of the paas, its code base and supporting tools.
+ 
 
-see [kanban](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1) 
+see [kanban](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1) board for current plan.
+
+Originally a [:fire: firebreak](https://insidegovuk.blog.gov.uk/2018/05/03/firebreaks-on-gov-uk/) experiment.
 
 # Overview
 
