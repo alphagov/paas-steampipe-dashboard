@@ -41,7 +41,7 @@ LOGIN1            := https://login.$(DUBLIN_DOMAIN)/passcode
 LOGIN2            := https://login.$(LONDON_DOMAIN)/passcode
 AIVEN_FILES       := aiven_instances.csv
 AWS_FILES         := ec2_instances.csv ec2_instance_types.csv application_load_balancers.csv cloudfront_distributions.csv ebs_snapshots.csv ebs_volumes.csv elasticache_clusters.csv network_load_balancers.csv rds_db_instances.csv rds_db_snapshots.csv sqs_queues.csv s3_buckets.csv vpcs.csv
-CSV_FILES         := $(AIVEN_FILES) $(AWS_FILES)  organizations.csv paas_accounts.csv routes.csv virtual_machines.csv
+CSV_FILES         := $(AIVEN_FILES) $(AWS_FILES)  holidays.csv organizations.csv paas_accounts.csv routes.csv virtual_machines.csv
 CSV_FILES1        := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv organization_quotas.csv processes.csv security_groups.csv service_brokers.csv service_instances.csv service_offerings.csv service_plans.csv service_route_bindings.csv spaces.csv space_quotas.csv stacks.csv users.csv
 STEAMPIPE_PLUGINS := config csv github net rss prometheus terraform zendesk
 
@@ -101,6 +101,7 @@ aws_data: $(AWS_FILES)
 $(AWS_FILES):
 	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/$(@:.csv=.sql) --output csv  | $(SED) -E '/^$$/d' > $@
 
+
 paas_accounts.csv:
 	(echo "---";\
 	echo "accounts:";\
@@ -124,6 +125,8 @@ docs/schemata.md:
 		echo;\
 	done ) > $@
 
+holidays.csv:
+	$(CURL) -s https://www.gov.uk/bank-holidays.json | $(JQ)  '."england-and-wales"'  | $(IN2CSV) -f json -k events  > $@
 
 organizations.csv:
 	$(CF1) curl '/v3/organizations?per_page=5000' |\
@@ -191,5 +194,3 @@ publish-model:   docs/datamodel.svg docs/datamodel.png docs/schemata.md
 	$(GIT) commit -m "refresh model"
 query:           ;$(STEAMPIPE) query start: ;$(STEAMPIPE service start)
 
-holidays.csv:
-	$(CURL) -s https://www.gov.uk/bank-holidays.json | $(JQ)  '."england-and-wales"'  | $(IN2CSV) -f json -k events  > $@
