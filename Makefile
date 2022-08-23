@@ -39,7 +39,7 @@ CF1               := CF_HOME=$(PAAS_ENVDIR)/dublin $(CF)
 CF2               := CF_HOME=$(PAAS_ENVDIR)/london $(CF)
 LOGIN1            := https://login.$(DUBLIN_DOMAIN)/passcode
 LOGIN2            := https://login.$(LONDON_DOMAIN)/passcode
-AIVEN_FILES       := aiven_services.json
+AIVEN_FILES       := aiven_instances.csv
 AWS_FILES         := ec2_instances.csv ec2_instance_types.csv application_load_balancers.csv cloudfront_distributions.csv ebs_snapshots.csv ebs_volumes.csv elasticache_clusters.csv network_load_balancers.csv rds_db_instances.csv rds_db_snapshots.csv sqs_queues.csv s3_buckets.csv vpcs.csv
 CSV_FILES         := $(AIVEN_FILES) $(AWS_FILES)  organizations.csv paas_accounts.csv routes.csv virtual_machines.csv
 CSV_FILES1        := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv organization_quotas.csv processes.csv security_groups.csv service_brokers.csv service_instances.csv service_offerings.csv service_plans.csv service_route_bindings.csv spaces.csv space_quotas.csv stacks.csv users.csv
@@ -90,8 +90,11 @@ docs/datamodel.svg: docs/datamodel.drawio
 docs/datamodel.png: docs/datamodel.drawio
 	$(DRAWIO) -x -e  -o $@ $<
 
-aiven_services.json:
+aiven_instances.json:
 	$(AIVEN_CLI) service list --json > $@ 
+
+aiven_instances.csv: aiven_instances.json
+	jq -r  '.[] | [.service_name, .cloud_name, .service_type, .plan] | @csv' $^ | $(HEADER) -a "service_name,region,service_type,plan" > $@
 
 aws_data: $(AWS_FILES)
 
