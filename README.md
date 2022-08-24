@@ -73,7 +73,7 @@ pip3 install visidata      # data wrangling swiss army penknife tool
 ```
 that you are on the VPN 
 
-you have a [GOV.UK PaaS account](https://cloud.service.gov.uk) with [global auditor](https://docs.cloudfoundry.org/concepts/roles.html#permissions) permissions and yiu are logged in using `make login`
+you have a [GOV.UK PaaS account](https://cloud.service.gov.uk) with [global auditor](https://docs.cloudfoundry.org/concepts/roles.html#permissions) permissions and you are logged in using `make login`
 
 you are a gds-user with permisssions to assume role into all the paas infrastructure AWS accounts
 
@@ -112,7 +112,18 @@ does not need Cloud Foundry or AWS creds because the dashboard uses local data
 
 ## 5. work with data
 
-`make edit-csvs`
+`vd *.csv` to work with the raw data
+
+`steampipe query` to work with the data using SQL in an interactive terminal interface
+
+`steampipe query --output csv 'select * from
+organizations'` to access data from the shell
+
+psql
+
+pgadmin
+
+
 
 
 
