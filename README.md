@@ -16,22 +16,22 @@ Originally a [:fire: firebreak](https://insidegovuk.blog.gov.uk/2018/05/03/fireb
 
 [Steampipe](https://steampipe.io) provides a SQL layer on top of a [wide range of cloud platform services](https://hub.steampipe.io/plugins) that have apis using a postgresql [foreign data wrapper](https://github.com/turbot/steampipe-postgres-fdw). 
 
-This dashboard uses [steampipe.io](https://steampipe.io) to build a set of dashboards over [GOV.UK PaaS](https://cloud.service.gov.uk).
+This dashboard uses [steampipe.io](https://steampipe.io) to build a set of dashboards over [GOV.UK PaaS](https://cloud.service.gov.uk) and its infrastructure.
 
-It uses the [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) to access the Cloud Foundry API and list resources, 
+It uses the [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) to access the Cloud Foundry API and list resources such as orgs, apps,services, 
 the data is saved locally as csv files and accessed from a local steampipe dashboard running at http://localhost:9194
 
 It uses the plugins configured in [dashboards/mod.sp](dashboards/mod.sp)
 
-The [dashboards](/dashboards) pull data from the underlying csv files using SQL and render the results as a dashboard.
+The [dashboards](/dashboards) pull data from the underlying csv files using postgres SQL and render the results as a dashboard.
 
 # How it works
 
-## 1. logs into Cloud Foundry using the CF CLI 
+## 1. logs into Cloud Foundry instances using the CF CLI 
 
 `cf login --sso`
 
-## 2. extracts data as csv format from the CF API 
+## 2. extracts data in csv format from the Cloud Foundry API 
 
 
 `cf curl /v3/foobar | in2csv -f json -k resources` converting JSON into CSV using csvkit's [in2csv](https://csvkit.readthedocs.io/en/latest/scripts/in2csv.html)
@@ -40,7 +40,7 @@ The [dashboards](/dashboards) pull data from the underlying csv files using SQL 
 
 `gds aws paas-prod-ro`
 
-## 4. extracts AWS data into CSV using steampipe query
+## 4. extracts AWS data into CSV using steampipe aws plugin
 
 `steampipe query query.sql -- output csv | gsed -E '/^$/d'`
 
@@ -82,8 +82,9 @@ you have the aiven CLI configured with an access token to list services
 
 # Usage
 
-## 1. me -dashboardq I've got a show room upstairs bathroom things about sa
+## 1. install dependencies
 
+git clone https://pgithub.com/pauldougan/paas-steampipe-dashboard
 
 `cd paas-steampipe-dashboard`
 
