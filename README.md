@@ -112,16 +112,14 @@ does not need Cloud Foundry or AWS creds because the dashboard uses local data
 
 ## 5. work with data
 
-`vd *.csv` to work with the raw data
+use `steampipe service` start to run locally and `steampipe service status` to get creds to configure your favourite [posts tools](https://github.com/dhamaniasad/awesome-postgres#gui). 
 
-`steampipe query` to work with the data using SQL in an interactive terminal interface
-
-`steampipe query --output csv 'select * from
-organizations'` to access data from the shell
-
-psql
-
-pgadmin
+- `vd *.csv` to work with the raw data
+- `steampipe query` to work with the data using SQL in an interactive terminal interface
+- `steampipe query --output csv 'select * from organizations'` to access data from the shell
+- [psql](https://www.postgresql.org/docs/current/app-psql.html)
+- [pgcli](https://github.com/dbcli/pgcli)
+- [pgadmin4](https://www.pgadmin.org/)
 
 
 

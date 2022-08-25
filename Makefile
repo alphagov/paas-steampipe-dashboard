@@ -100,16 +100,16 @@ aiven_instances.csv: aiven_instances.json
 aws_data: $(AWS_FILES)
 
 $(AWS_FILES):
-	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/$(@:.csv=.sql) --output csv  | $(SED) -E '/^$$/d' > $@
+	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/$(@:.csv=.sql) --output csv > $@
 
 
 paas_accounts.csv:
 	(echo "---";\
 	echo "accounts:";\
-	for e in `gds aws | grep paas | gsed -E -e 's/^[ \t]+//' -e 's/ +[a-zA-Z0-9_ /t]+//' | sort`;\
+	for e in `gds aws | grep paas | $(SED) -E -e 's/^[ \t]+//' -e 's/ +[a-zA-Z0-9_ /t]+//' | sort`;\
 	do \
   		echo "  -";\
-  		gds aws $$e -d --skip-ip-range-checks | gsed -E 's/^/    /';\
+  		gds aws $$e -d --skip-ip-range-checks | $(SED) -E 's/^/    /';\
 	done) | yq -o json | in2csv -f json -k accounts > $@
 
 docs/schemata.md:
@@ -122,7 +122,7 @@ docs/schemata.md:
 		echo;\
 		echo '|seq|field|';\
 		echo '---|------|';\
-		csvcut -n $$f | gsed -E -e 's/ +/|/' -e 's/: /|/' -e 's/$$/|/';\
+		csvcut -n $$f | $(SED) -E -e 's/ +/|/' -e 's/: /|/' -e 's/$$/|/';\
 		echo;\
 	done ) > $@
 
@@ -156,7 +156,7 @@ routes.csv:
 schemata.csv: 
 	(for f in *.csv;\
 	do \
-	  csvcut $$f -n | gsed -E -e "s/^ +/$$f,/" -e "s/: +/,/";\
+	  csvcut $$f -n | $(SED) -E -e "s/^ +/$$f,/" -e "s/: +/,/";\
 	done) |  bin/header -a 'file,seq,field' > $@
 
 last-updated: settings.csv
@@ -197,4 +197,3 @@ publish-model:   docs/datamodel.svg docs/datamodel.png docs/schemata.md
 	$(GIT) add $^
 	$(GIT) commit -m "refresh model"
 query:           ;$(STEAMPIPE) query start: ;$(STEAMPIPE service start)
-
