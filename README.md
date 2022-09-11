@@ -42,9 +42,7 @@ The [dashboards](/dashboards) pull data from the underlying csv files using post
 
 ## 4. extracts AWS data into CSV using steampipe aws plugin
 
-`steampipe query query.sql -- output csv | gsed -E '/^$/d'`
-
-Delete blank lines because steampipe adds a blank line to the end of the file.
+`steampipe query query.sql -- output csv`
 
 ## 5. launches steampipe dashboard
 
