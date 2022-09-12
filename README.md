@@ -42,9 +42,7 @@ The [dashboards](/dashboards) pull data from the underlying csv files using post
 
 ## 4. extracts AWS data into CSV using steampipe aws plugin
 
-`steampipe query query.sql -- output csv | gsed -E '/^$/d'`
-
-Delete blank lines because steampipe adds a blank line to the end of the file.
+`steampipe query query.sql -- output csv`
 
 ## 5. launches steampipe dashboard
 
@@ -84,7 +82,7 @@ you have the aiven CLI configured with an access token to list services
 
 ## 1. install dependencies
 
-git clone https://pgithub.com/pauldougan/paas-steampipe-dashboard
+git clone https://github.com/pauldougan/paas-steampipe-dashboard
 
 `cd paas-steampipe-dashboard`
 
@@ -112,7 +110,7 @@ does not need Cloud Foundry or AWS creds because the dashboard uses local data
 
 ## 5. work with data
 
-use `steampipe service` start to run locally and `steampipe service status` to get creds to configure your favourite [posts tools](https://github.com/dhamaniasad/awesome-postgres#gui). 
+use `steampipe service` start to run locally and `steampipe service status` to get creds to configure your favourite [postgres tools](https://github.com/dhamaniasad/awesome-postgres#gui). 
 
 - `vd *.csv` to work with the raw data
 - `steampipe query` to work with the data using SQL in an interactive terminal interface
