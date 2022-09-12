@@ -3,10 +3,9 @@
 
 A dashboard to monitor the [GOV.UK PaaS](https://cloud.service.gov.uk) platform.
 
-Uses [Steampipe](https://steampipe.io/) to access all the component parts from the underlying infrastructure in AWS and Aiven through to the Cloud Foundey core of the paas, its code base and supporting tools.
+Uses [Steampipe](https://steampipe.io/) to access all the component parts from the underlying infrastructure in AWS and Aiven through to the Cloud Foundry core of the paas, its code base and supporting tools.
  
-
-see [kanban](https://github.com/pauldougan/paas-steampipe-dashboard/projects/1) board for current plan.
+see [kanban](https://github.com/alphagov/paas-steampipe-dashboard/projects/1) board for current plan.
 
 Originally a [:fire: firebreak](https://insidegovuk.blog.gov.uk/2018/05/03/firebreaks-on-gov-uk/) experiment.
 
@@ -32,7 +31,6 @@ The [dashboards](/dashboards) pull data from the underlying csv files using post
 `cf login --sso`
 
 ## 2. extracts data in csv format from the Cloud Foundry API 
-
 
 `cf curl /v3/foobar | in2csv -f json -k resources` converting JSON into CSV using csvkit's [in2csv](https://csvkit.readthedocs.io/en/latest/scripts/in2csv.html)
 
@@ -82,7 +80,7 @@ you have the aiven CLI configured with an access token to list services
 
 ## 1. install dependencies
 
-git clone https://github.com/pauldougan/paas-steampipe-dashboard
+git clone https://github.com/alphagov/paas-steampipe-dashboard
 
 `cd paas-steampipe-dashboard`
 
