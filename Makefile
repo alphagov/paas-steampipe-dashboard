@@ -3,6 +3,7 @@ TIMESTAMP	  := $(shell date -Iseconds)
 AIVEN_CLI         := avn
 AWK               := gawk
 CF                := cf
+COPILOT_CLI       := copilot
 CSVCUT            := csvcut
 CSVFORMAT         := csvformat 
 CSVGREP           := csvgrep
@@ -28,6 +29,7 @@ SORT              := sort
 STEAMPIPE         := steampipe
 TEE               := tee
 VISIDATA          := vd
+YQ                := yq
 
 PAAS_PROFILE      := paas-prod-ro  # user read only creds against production
 CF_ORG            := admin
@@ -171,19 +173,34 @@ virtual_machines.csv:
 dependencies:
 	mkdir -p $(PAAS_ENVDIR)/dublin             
 	mkdir -p $(PAAS_ENVDIR)/london
-	pip3 install -r requirements.txt                 # python dependencies
-	type cf || brew install cf-cli@8                 # Cloud Foundry CLI
-	type gds || brew install alphagov/gds/gds-cli    # GDS CLI (needs ssh config)
-	brew install drawio                              # drawio diagram editor
-	type gawk || brew install gawk                   # GNU awk	
-	type gh || brew install gh                       # github cli
-	type glow || brew install glow                   # glow cli for handling markdown
-	type gsed || brew install gnu-sed                # GNU sed
-	type jq || brew install jq.                      # JSON wrangling tool
-	type steampipe || brew install steampipe         # make cloud apis queryable via SQL 
-	type yq || brew install yq                       # YAML wrangling tool
-	$(STEAMPIPE) plugin install $(STEAMPIPE_PLUGINS) # install plugins
+	pip3 install -r requirements.txt                   # python dependencies
+	type cf || brew install cf-cli@8                   # Cloud Foundry CLI
+	type copilot || brew install aws/tap/copilot-cli   # AWS Copilot CLI
+	type gds || brew install alphagov/gds/gds-cli      # GDS CLI (needs ssh config)
+	brew install drawio                                # drawio diagram editor
+	type gawk || brew install gawk                     # GNU awk	
+	type gh || brew install gh                         # github cli
+	type glow || brew install glow                     # glow cli for handling markdown
+	type gsed || brew install gnu-sed                  # GNU sed
+	type jq || brew install jq.                        # JSON wrangling tool
+	type steampipe || brew install steampipe           # make cloud apis queryable via SQL 
+	type yq || brew install yq                         # YAML wrangling tool
+	$(STEAMPIPE) plugin install $(STEAMPIPE_PLUGINS)   # install plugins
 
+versions:
+	@cf version
+	@copilot version
+	@$(DRAWIO) -V
+	@$(GDS_CLI) -v
+	@$(AWK) -V
+	@gh version
+	@glow -v
+	@$(SED) --version
+	@$(JQ) -V
+	@$(STEAMPIPE) -v
+	@$(YQ) -V
+	make -v
+	
 aws-bash:    	 ; $(GDS_CLI) aws $(PAAS_PROFILE) -- bash
 aws-query:    	 ; $(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query
 aws-console:     ; $(GDS_CLI) aws $(PAAS_PROFILE) -l
