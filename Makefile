@@ -186,6 +186,7 @@ dependencies:
 	type steampipe || brew install steampipe           # make cloud apis queryable via SQL 
 	type yq || brew install yq                         # YAML wrangling tool
 	$(STEAMPIPE) plugin install $(STEAMPIPE_PLUGINS)   # install plugins
+	$(STEAMPIPE) plugin update --all		   # upgrade plugins   
 
 versions:
 	@cf version
