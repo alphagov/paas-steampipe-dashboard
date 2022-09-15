@@ -1,4 +1,4 @@
-aiven-cli
+aiven-client
 csvkit
 frictionless
 visidata
