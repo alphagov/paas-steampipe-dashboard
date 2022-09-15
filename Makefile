@@ -189,6 +189,7 @@ dependencies:
 	$(STEAMPIPE) plugin update --all		   # upgrade plugins   
 
 versions:
+	@$(AIVEN_CLI) --version 
 	@cf version
 	@copilot version
 	@$(DRAWIO) -V
