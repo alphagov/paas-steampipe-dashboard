@@ -1,7 +1,7 @@
 FROM turbot/steampipe
 # Setup prerequisites (as root)
 EXPOSE 8080
-RUN  steampipe plugin install steampipe config aws csv github googlesheet net prometheus rss terraform zendesk
+RUN  steampipe plugin install steampipe config aws csv github googlesheets net prometheus rss terraform zendesk
 WORKDIR .
 ADD *.csv .
 ADD *.json .
