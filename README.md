@@ -108,7 +108,7 @@ does not need Cloud Foundry or AWS creds because the dashboard uses local data
 
 ## 5. work with data
 
-use `steampipe service` start to run locally and `steampipe service status` to get creds to configure your favourite [posts tools](https://github.com/dhamaniasad/awesome-postgres#gui). 
+use `steampipe service` start to run locally and `steampipe service status` to get creds to configure your favourite [postgres tools](https://github.com/dhamaniasad/awesome-postgres#gui). 
 
 - `vd *.csv` to work with the raw data
 - `steampipe query` to work with the data using SQL in an interactive terminal interface
