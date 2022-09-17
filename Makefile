@@ -13,6 +13,7 @@ CSVSQL            := csvsql
 CSVSTACK          := csvstack
 CSVTOTABLE        := csvtotable
 CURL              := curl -s
+DOCKER            := docker
 DRAWIO            := /Applications/draw.io.app/Contents/MacOS/draw.io
 GDS_CLI           := gds  #use  version of the gds binary that contains this commit https://github.com/alphagov/gds-cli/commit/229ffb7a80c87fa85b0e8068d5d8a04b05ecdddf i.e. v5.35.0-7-g229ffb7 or later
 GH                := gh
@@ -31,7 +32,8 @@ TEE               := tee
 VISIDATA          := vd
 YQ                := yq
 
-PAAS_PROFILE      := paas-prod-ro  # user read only creds against production
+DOCKER_IMAGE      := paas-steampipe-dashboard
+AWS_PROFILE       := paas-prod-ro  # user read only creds against production
 CF_ORG            := admin
 CF_SPACE          := billing
 PAAS_CF_REPO      := https://raw.githubusercontent.com/alphagov/paas-cf
@@ -46,7 +48,7 @@ AIVEN_FILES       := aiven_instances.csv
 AWS_FILES         := ec2_instances.csv ec2_instance_types.csv application_load_balancers.csv cloudfront_distributions.csv ebs_snapshots.csv ebs_volumes.csv elasticache_clusters.csv network_load_balancers.csv rds_db_instances.csv rds_db_snapshots.csv sqs_queues.csv s3_buckets.csv vpcs.csv
 CSV_FILES         := $(AIVEN_FILES) $(AWS_FILES)  holidays.csv organizations.csv paas_accounts.csv routes.csv virtual_machines.csv
 CSV_FILES1        := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv organization_quotas.csv processes.csv security_groups.csv service_brokers.csv service_instances.csv service_offerings.csv service_plans.csv service_route_bindings.csv spaces.csv space_quotas.csv stacks.csv users.csv
-STEAMPIPE_PLUGINS := config csv github net rss prometheus terraform zendesk
+STEAMPIPE_PLUGINS := config csv github net prometheus rss terraform zendesk
 
 define api2csv
 $(CF1) curl '/v3/$1?page=1&per_page=5000' | $(IN2CSV) -f json -k resources > $1-dublin.csv
@@ -61,6 +63,12 @@ status: README.md
 
 data: login extract-data last-updated
 
+build:
+	$(DOCKER) build -t $(DOCKER_IMAGE) .
+
+run:
+	$(DOCKER) run --rm -ti -p 8080:8080 $(DOCKER_IMAGE) 
+	
 clean:
 	@echo clean platform data
 	$(RM) $(CSV_FILES) $(CSV_FILES1)
@@ -102,7 +110,7 @@ aiven_instances.csv: aiven_instances.json
 aws_data: $(AWS_FILES)
 
 $(AWS_FILES):
-	$(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/$(@:.csv=.sql) --output csv > $@
+	$(GDS_CLI) aws $(AWS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/$(@:.csv=.sql) --output csv > $@
 
 
 paas_accounts.csv:
@@ -203,9 +211,9 @@ versions:
 	@$(YQ) -V
 	make -v
 	
-aws-bash:    	 ; $(GDS_CLI) aws $(PAAS_PROFILE) -- bash
-aws-query:    	 ; $(GDS_CLI) aws $(PAAS_PROFILE) -- $(STEAMPIPE) query
-aws-console:     ; $(GDS_CLI) aws $(PAAS_PROFILE) -l
+aws-bash:    	 ; $(GDS_CLI) aws $(AWS_PROFILE) -- bash
+aws-query:    	 ; $(GDS_CLI) aws $(AWS_PROFILE) -- $(STEAMPIPE) query
+aws-console:     ; $(GDS_CLI) aws $(AWS_PROFILE) -l
 dashboard:       ; @echo "http://localhost:9194/paas-dashboard.dashboard.paas";  $(STEAMPIPE) dashboard --browser=false --workspace-chdir dashboards ; 
 edit-csv:        ;$(VISIDATA) *.csv
 edit-model:      docs/datamodel.drawio ; $(DRAWIO) $<
