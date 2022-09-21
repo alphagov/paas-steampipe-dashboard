@@ -5,6 +5,6 @@ RUN  steampipe plugin install steampipe config aws csv github googlesheets net p
 WORKDIR .
 ADD *.csv .
 ADD *.json .
-ADD config .
-ADD dashboards .
-CMD ["steampipe", "dashboard", "--dashboard-port", "8080", "--dashboard-listen=network"]
+ADD config ./config
+ADD dashboards ./dashboards
+CMD ["steampipe", "dashboard", "--dashboard-port", "8080", "--dashboard-listen=network", "--workspace-chdir", "dashboards"]
