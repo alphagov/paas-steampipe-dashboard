@@ -1,5 +1,6 @@
 SHELL             := /usr/local/bin/bash
 TIMESTAMP	  := $(shell date -Iseconds)
+
 AIVEN_CLI         := avn
 AWK               := gawk
 CF                := cf
@@ -32,8 +33,11 @@ TEE               := tee
 VISIDATA          := vd
 YQ                := yq
 
+
+APP_NAME          := paas-dashboard
+AWS_PROD_PROFILE  := paas-prod-ro            # read only creds against production
+AWS_DASH_PROFILE  := paas-experiments-admin  # admin creds against experiments
 DOCKER_IMAGE      := paas-steampipe-dashboard
-AWS_PROFILE       := paas-prod-ro  # user read only creds against production
 CF_ORG            := admin
 CF_SPACE          := billing
 PAAS_CF_REPO      := https://raw.githubusercontent.com/alphagov/paas-cf
@@ -44,7 +48,7 @@ CF1               := CF_HOME=$(PAAS_ENVDIR)/dublin $(CF)
 CF2               := CF_HOME=$(PAAS_ENVDIR)/london $(CF)
 LOGIN1            := https://login.$(DUBLIN_DOMAIN)/passcode
 LOGIN2            := https://login.$(LONDON_DOMAIN)/passcode
-AIVEN_FILES       := aiven_instances.csv
+AIVEN_FILES       := aiven_instances.csv aiven_instances.json
 AWS_FILES         := ec2_instances.csv ec2_instance_types.csv application_load_balancers.csv cloudfront_distributions.csv ebs_snapshots.csv ebs_volumes.csv elasticache_clusters.csv network_load_balancers.csv rds_db_instances.csv rds_db_snapshots.csv sqs_queues.csv s3_buckets.csv vpcs.csv
 CSV_FILES         := $(AIVEN_FILES) $(AWS_FILES)  holidays.csv organizations.csv paas_accounts.csv routes.csv virtual_machines.csv
 CSV_FILES1        := apps.csv buildpacks.csv domains.csv feature_flags.csv isolation_segments.csv organization_quotas.csv processes.csv security_groups.csv service_brokers.csv service_instances.csv service_offerings.csv service_plans.csv service_route_bindings.csv spaces.csv space_quotas.csv stacks.csv users.csv
@@ -110,8 +114,7 @@ aiven_instances.csv: aiven_instances.json
 aws_data: $(AWS_FILES)
 
 $(AWS_FILES):
-	$(GDS_CLI) aws $(AWS_PROFILE) -- $(STEAMPIPE) query dashboards/query/aws/$(@:.csv=.sql) --output csv > $@
-
+	$(STEAMPIPE) query dashboard/query/aws/$(@:.csv=.sql) --output csv > $@
 
 paas_accounts.csv:
 	(echo "---";\
@@ -210,11 +213,20 @@ versions:
 	@$(STEAMPIPE) -v
 	@$(YQ) -V
 	make -v
+
+deploy-dashboard: Dockerfile
+	$(GDS_CLI) aws $(AWS_DASH_PROFILE) -- $(COPILOT_CLI) \
+	init \
+	--app $(APP_NAME) \
+  	--name dashboard \
+  	--type "Backend Service" \
+	--port 8080 \
+  	--dockerfile "./Dockerfile" 
 	
-aws-bash:    	 ; $(GDS_CLI) aws $(AWS_PROFILE) -- bash
-aws-query:    	 ; $(GDS_CLI) aws $(AWS_PROFILE) -- $(STEAMPIPE) query
-aws-console:     ; $(GDS_CLI) aws $(AWS_PROFILE) -l
-dashboard:       ; @echo "http://localhost:9194/paas-dashboard.dashboard.paas";  $(STEAMPIPE) dashboard --browser=false --workspace-chdir dashboards ; 
+aws-bash:    	 ; $(GDS_CLI) aws $(AWS_PROD_PROFILE) -- bash
+aws-query:    	 ; $(GDS_CLI) aws $(AWS_PROD_PROFILE) -- $(STEAMPIPE) query
+aws-console:     ; $(GDS_CLI) aws $(AWS_PROD_PROFILE) -l
+dashboards:       ; @echo "http://localhost:9194/paas-dashboard.dashboard.paas";  $(STEAMPIPE) dashboard --browser=false --workspace-chdir dashboard ; 
 edit-csv:        ;$(VISIDATA) *.csv
 edit-model:      docs/datamodel.drawio ; $(DRAWIO) $<
 issues:          ;$(GH) issue list
