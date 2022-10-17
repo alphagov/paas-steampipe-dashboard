@@ -21,25 +21,50 @@ dashboard "paas" {
 
   container {
     title = "Tenants"
-  card {
-    base = card.departments_count
-  }
-  card {
-    base = card.organisations_count
-  }
-  card {
-    base = card.users_count
-  }
-  card {
-    base = card.orgs_count_billable
-  }
-  card {
-    base = card.orgs_count_suspended
-  }
-  card {
-    base = card.orgs_expiring_trials_count
+    container {
+      card {
+        base = card.departments_count
+      }
+      card {
+        base = card.organisations_count
+      }
+      card {
+        base = card.users_count
+      }
+    container {
+      card {
+        base = card.orgs_count_billable
+      }
+      card {
+        base = card.orgs_count_suspended
+      }
+      card {
+        base = card.orgs_expiring_trials_count
+      } 
+    }
+    }
   } 
-} 
+
+  container {
+    title = "Bills"
+    container {
+      card {
+        base = card.bills_total
+      }
+      card {
+        base = card.bills_date_range
+      }
+    }
+    container {
+      card {
+        base = card.bills_last_bill_date
+      }
+      card {
+        base = card.bills_total_last_month
+      }
+    }
+  }
+
 
   container {
     title = "Domains and routes"
@@ -126,7 +151,7 @@ dashboard "paas" {
 
 
   container {
-    title = "Souce code"
+    title = "Source code"
     card {
       base = card.github_paas_repo_count
     }

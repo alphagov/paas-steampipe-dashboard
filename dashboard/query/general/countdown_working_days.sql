@@ -1,8 +1,9 @@
--- number of working to decomission
+-- number of working to decommission
 with holidays_count as (
   select 
     count(*) as holidays
-  from holidays 
+  from 
+    holidays 
   where 
     (date::date > now()) and (date::date < '2023-12-23'::date)
 )

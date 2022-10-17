@@ -6,6 +6,14 @@ card "bills_total" {
   width = "3"
 }
 
+card "bills_total_last_month" {
+  type = "info"
+  icon = "currency-pound"
+  label = "total bills last month"
+  sql = query.bills_total_last_month.sql
+  width = "3"
+}
+
 card "bills_date_range" {
   type = "info"
   icon = "calendar"
@@ -46,6 +54,9 @@ dashboard "bills" {
   }
   card {
     base = card.bills_last_bill_date
+  }
+  card {
+    base = card.bills_total_last_month
   }
   chart {
     base = chart.bills_total_by_region

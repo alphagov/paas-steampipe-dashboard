@@ -3,6 +3,6 @@
 select 
   (value::date - current_date) as days_to_decommission 
 from 
-  config 
+  settings 
   where 
     key = 'decommission_date'

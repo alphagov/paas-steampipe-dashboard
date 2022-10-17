@@ -96,7 +96,7 @@ see [config](config) for examples
 
 you need creds to access the AWS accounts
 
-`gds aws paas-paas-ro -- make data`
+`gds aws paas-prod-ro -- make data`
 
 this logs into to AWS and Cloud Foundry, extracts data locally in csv format 
 

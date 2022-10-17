@@ -16,4 +16,6 @@ a log of decisions
 - provide controlled access via an nginx reverse proxy
 - add basic auth
 - restrict access to VPN
+- TLS for front end
+- put data in data directory
 

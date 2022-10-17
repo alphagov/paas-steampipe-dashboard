@@ -11,12 +11,12 @@ input "departments" {
   sql = query.departments_input.sql
 }
 
-input "organizations" {
-  title = "organizations"
-  type  = "select"
-  width = 3
-  sql = query.organizations_input.sql
-}
+  input "organizations" {
+    title = "organizations"
+    type  = "select"
+    width = 3
+    sql = query.organizations_input.sql
+  }
 
 
 dashboard "input" {
