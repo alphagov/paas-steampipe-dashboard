@@ -1,3 +1,4 @@
+data
 *.bkp
 *.dtmp
 .DS_Store
@@ -5,4 +6,4 @@
 .vscode
 _data
 hack
-nginx/conf/.htpasswd
+.htpasswd
