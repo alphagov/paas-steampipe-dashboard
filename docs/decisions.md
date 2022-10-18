@@ -16,6 +16,6 @@ a log of decisions
 - provide controlled access via an nginx reverse proxy
 - add basic auth
 - restrict access to VPN
-- TLS for front end
-- put data in data directory
+- user TLS for front end
+- put data in  a separate data directory and add data/**/*.csv to csv config
 
