@@ -1,8 +1,8 @@
 *.bkp
 *.dtmp
-*.tar
-*.zip
+.DS_Store
 .DS_Store
 .vscode
-data
+_data
 hack
+nginx/conf/.htpasswd

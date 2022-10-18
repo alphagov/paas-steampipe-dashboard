@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+ON_VPN=true 
+curl -sf https://intranet.cabinetoffice.gov.uk/ > /dev/null || ON_VPN=false
+echo $ON_VPN
