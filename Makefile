@@ -35,8 +35,9 @@ YQ                := yq
 
 
 APP_NAME          := paas-dashboard
-AWS_PROD_PROFILE  := paas-prod-ro            # read only creds against production
-AWS_DASH_PROFILE  := paas-experiments-admin  # admin creds against experiments
+AWS_PROD_PROFILE  := paas-prod-ro                # read only creds against production
+AWS_DASH_PROFILE  := paas-experiments-admin      # admin creds against experiments
+COPILOT_DOMAIN    := govukpaasmigration.digital  # domain for copilot app
 DOCKER_IMAGE      := paas-steampipe-dashboard
 CF_ORG            := admin
 CF_SPACE          := billing
