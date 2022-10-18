@@ -149,7 +149,6 @@ dashboard "paas" {
   }
 
 
-
   container {
     title = "Source code"
     card {
