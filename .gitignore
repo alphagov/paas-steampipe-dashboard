@@ -2,7 +2,6 @@ data
 *.bkp
 *.dtmp
 .DS_Store
-.DS_Store
 .vscode
 _data
 hack
