@@ -52,8 +52,8 @@ AWS_EXPERIMENTS_PROFILE   := paas-experiments-admin      # admin creds against e
 AWS_PROD_PROFILE          := paas-prod-ro                      # read only creds against production
 COPILOT_DOMAIN            := govukpaasmigration.digital        # domain for copilot app
 DOCKER_IMAGE              := paas-steampipe-dashboard
-ASSUME_ROLE_EXPERIMENTS   := $(GDS_CLI) aws $(AWS_EXPERIMENTS_PROFILE) --   
-ASSUME_ROLE_PROD          := $(GDS_CLI) aws $(AWS_PROD_PROFILE) --   
+ASSUME_ROLE_EXPERIMENTS   := $(GDS_CLI) aws $(AWS_EXPERIMENTS_PROFILE)    
+ASSUME_ROLE_PROD          := $(GDS_CLI) aws $(AWS_PROD_PROFILE)  
 
 # cf configuration
 CF_ORG            := admin
@@ -104,14 +104,23 @@ aws_data: $(AWS_FILES)
 
 aws-prod: aws-prod-console aws-prod-bash
 
+aws-experiments-shell:
+	$(ASSUME_ROLE_EXPERIMENTS) -- $(SHELL) -l
+
+aws-experiments-console:
+	$(ASSUME_ROLE_EXPERIMENTS) -l
+
+aws-experimaents-query:
+	$(ASSUME_ROLE_EXPERIMENTS) -- $(STEAMPIPE) query
+
 aws-prod-shell:
-	$(ASSUME_ROLE_PROD) $(SHELL) -l
+	$(ASSUME_ROLE_PROD) -- $(SHELL) -l
 
 aws-prod-console:
 	$(ASSUME_ROLE_PROD) -l
 
 aws-prod-query:
-	$(ASSUME_ROLE_PROD) $(STEAMPIPE) query
+	$(ASSUME_ROLE_PROD) -- $(STEAMPIPE) query
 
 build:
 	$(DOCKER) build -t $(DOCKER_IMAGE) .
@@ -122,9 +131,11 @@ clean:
 	$(RM) *-dublin.csv
 	$(RM) *-london.csv
 
+.PHONY:  dashboard
 dashboard:
 	$(STEAMPIPE) dashboard --browser=false --workspace-chdir dashboard ; 
 
+.PHONY: data
 data: login extract-data last-updated
 
 deps:
@@ -287,22 +298,22 @@ virtual_machines.csv:
 
 # copilot steps
 01-app-init:
-	$(ASCIINEMA_REC) -c 'copilot app init $(APP_NAME) --resource-tags department=GDS,team=govuk-paas,owner=paul.dougan --domain $(DOMAIN)' casts/$@.cast
+	$(call record_command, "copilot app init $(APP_NAME) --resource-tags department=GDS,team=govuk-paas,owner=paul.dougan --domain $(COPILOT_DOMAIN)",$@)
 	
 02-env-init:
-	$(ASCIINEMA_REC)     -c 'copilot env init -a $(APP_NAME) -n dev --container-insights' 		casts/$@.cast
-
+	$(call record_command, "copilot env init -a $(APP_NAME) -n dev --container-insights",$@)
+	
 03-env-deploy:
-	$(ASCIINEMA_REC)    -c 'copilot env deploy -a $(APP_NAME) -n dev' 		casts/$@.cast
+	$(call record_command, "copilot env deploy -a $(APP_NAME) -n dev",$@)
 
 04-svc-init-dashboard:
-	$(ASCIINEMA_REC)    -c 'copilot svc init  -d dashboard/Dockerfile -a $(APP_NAME) -n dashboard -t "Backend Service"' casts/$@.cast
+	$(call record_command, "copilot svc init  -d dashboard/Dockerfile -a $(APP_NAME) -n dashboard -t 'Backend Service'",$@)
 
 05-svc-deploy-dashboard:
-	$(ASCIINEMA_REC)    -c 'copilot svc deploy -a $(APP_NAME) -e dev -n dashboard' casts/05-svc-deploy-dashboard.cast
+	$(call record_command, "copilot svc deploy -a $(APP_NAME) -e dev -n dashboard",$@)
 
 06-svc-init-nginx:
-	$(ASCIINEMA_REC)    -c 'copilot svc init -d nginx/Dockerfile.3 -a $(APP_NAME) -n nginx -t "Load Balanced Web Service"' casts/$@.cast
+	$(call record_command, "copilot svc init -d nginx/Dockerfile.3 -a $(APP_NAME) -n nginx -t 'Load Balanced Web Service'",$@)
 
 07-svc-deploy-nginx:
 	
@@ -316,11 +327,10 @@ virtual_machines.csv:
 	$(call record_command, "copilot svc show -a $(APP_NAME) -n nginx ",$@)
 
 09-svc-delete-nginx:
-	$(ASCIINEMA_REC)    -c 'copilot svc delete -a $(APP_NAME) -e dev -n nginx' casts/$@.cast
+	$(call record_command, "copilot svc delete -a $(APP_NAME) -e dev -n nginx",$@)
 
 10-svc-delete-dashboard:
-	$(ASCIINEMA_REC)    -c 'copilot svc delete -a $(APP_NAME) -e dev -n dashboard' casts/$@.cast
+	$(call record_command, "copilot svc delete -a $(APP_NAME) -e dev -n dashboard",$@)
 
 11-app-delete-app:
-	$(ASCIINEMA_REC)    -c 'copilot app delete -n $(APP_NAME)' casts/$@.cast
-
+	$(call record_command, "copilot app delete -n $(APP_NAME)",$@)
