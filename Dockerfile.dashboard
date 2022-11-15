@@ -14,4 +14,4 @@ RUN mkdir -p dashboard/data
 ADD dashboard dashboard
 ADD data dashboard/data
 COPY dashboard/config/csv.spc /home/steampipe/.steampipe/config
-CMD ["steampipe", "dashboard", "--dashboard-port", "8080", "--dashboard-listen=network", "--workspace-chdir", "dashboard"]
+CMD ["steampipe", "dashboard", "--dashboard-port", "8080", "--dashboard-listen=network", "--mod-location", "dashboard"]
