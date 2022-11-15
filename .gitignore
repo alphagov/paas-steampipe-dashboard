@@ -4,5 +4,6 @@ data
 .DS_Store
 .vscode
 _data
+raw_bills
 hack
 .htpasswd
