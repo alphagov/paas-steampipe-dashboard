@@ -1,0 +1,6 @@
+FROM nginx:latest
+EXPOSE 80 
+COPY nginx/www/index.html        /usr/share/nginx/html/index.html
+COPY nginx/conf/nginx.conf       /etc/nginx/conf.d/default.conf
+COPY nginx/conf/.htpasswd  	     /etc/nginx/.htpasswd
+COPY nginx/www/health/index.html /usr/share/nginx/html/health/index.html
