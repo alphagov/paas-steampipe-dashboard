@@ -18,5 +18,5 @@ connection "csv" {
 
   # Defaults to CWD
 
-  paths = [ "*.csv", "data/**/*.csv" ]
+  paths = [ "*.csv", "**/*.csv" ]
 }
