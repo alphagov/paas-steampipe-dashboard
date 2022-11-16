@@ -20,6 +20,7 @@ CSVTOTABLE        := csvtotable
 CURL              := curl -s
 DOCKER            := docker
 DRAWIO            := /Applications/draw.io.app/Contents/MacOS/draw.io
+EDITOR            := vim
 EGREP             := egrep
 FIND              := find
 GDS_CLI           := gds  #use  version of the gds binary that contains this commit https://github.com/alphagov/gds-cli/commit/229ffb7a80c87fa85b0e8068d5d8a04b05ecdddf i.e. v5.35.0-7-g229ffb7 or later
@@ -316,6 +317,9 @@ login:
 logout:
 	$(CF1) logout
 	$(CF2) logout
+
+logs:
+	$(EDITOR) ~/.steampipe/logs/
 
 menu:
 	@$(EGREP) -E "^[0-9]{2}" Makefile | gsed 's/://'
