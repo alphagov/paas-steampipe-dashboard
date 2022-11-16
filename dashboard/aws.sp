@@ -70,6 +70,22 @@ card "rds_db_instances_count" {
   width = "2"
  }
 
+card "vpc_subnets_count" {
+  type = "info"
+  icon = "hashtag"
+  label = "vpc subnets count"
+  sql = query.vpc_subnets_count.sql
+  width = "2"
+ }
+
+card "vpc_internet_gateways_count" {
+  type = "info"
+  icon = "hashtag"
+  label = "vpc internet gateways count"
+  sql = query.vpc_internet_gateways_count.sql
+  width = "2"
+ }
+
 dashboard "rds_db_instances_report" {
   title = "GOV.UK PaaS RDS dashboard"
   table {
@@ -85,6 +101,12 @@ dashboard "aws" {
   title = "GOV.UK PaaS AWS dashboard"
   card {
     base = card.vpcs_count
+  }
+  card {
+    base = card.vpc_subnets_count
+  }
+  card {
+    base = card.vpc_internet_gateways_count
   }
   card {
     base = card.application_load_balancers_count

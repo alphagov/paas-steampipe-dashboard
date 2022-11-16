@@ -3,7 +3,7 @@ card "bills_total" {
   icon = "currency-pound"
   label = "total bills"
   sql = query.bills_total.sql
-  width = "3"
+  width = "2"
 }
 
 card "bills_total_last_month" {
@@ -11,7 +11,7 @@ card "bills_total_last_month" {
   icon = "currency-pound"
   label = "total bills last month"
   sql = query.bills_total_last_month.sql
-  width = "3"
+  width = "2"
 }
 
 card "bills_date_range" {
@@ -19,7 +19,7 @@ card "bills_date_range" {
   icon = "calendar"
   label = "bills date range"
   sql = query.bills_date_range.sql
-  width = "4"
+  width = "3"
 }
 
 card "bills_last_bill_date" {
@@ -27,7 +27,7 @@ card "bills_last_bill_date" {
   icon = "calendar"
   label = "last bill date"
   sql = query.bills_last_bill_date.sql
-  width = "3"
+  width = "2"
 }
 
 chart "bills_total_by_region" {
@@ -46,27 +46,33 @@ chart "bills_total_by_date" {
 
 dashboard "bills" {
   title = "GOV.UK PaaS bills dashboard"
-  card {
-    base = card.bills_date_range
+  container {
+    card {
+      base = card.bills_total
+    }
+    card {
+      base = card.bills_date_range
+    }
   }
-  card {
-    base = card.bills_total
+  container {
+    card {
+      base = card.bills_total_last_month
+    }
+    card {
+      base = card.bills_last_bill_date
+    }
   }
-  card {
-    base = card.bills_last_bill_date
+  container {  
+    chart {
+      base = chart.bills_total_by_region
+    }
+    chart {
+      base = chart.bills_total_by_date
+    }
   }
-  card {
-    base = card.bills_total_last_month
-  }
-  chart {
-    base = chart.bills_total_by_region
-  }
-  chart {
-    base = chart.bills_total_by_date
-  }
-  tags = {
-  service = "bills"
-  type     = "dashboard"
-  }
+    tags = {
+    service = "bills"
+    type     = "dashboard"
+    }
 }
 
