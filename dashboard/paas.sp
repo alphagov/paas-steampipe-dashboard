@@ -107,6 +107,12 @@ dashboard "paas" {
       base = card.vpcs_count
     }
     card {
+      base = card.vpc_subnets_count
+    }
+    card {
+      base = card.vpc_internet_gateways_count
+    }
+    card {
       base = card.application_load_balancers_count
     }
     card {
