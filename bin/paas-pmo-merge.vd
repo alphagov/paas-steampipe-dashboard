@@ -1,0 +1,17 @@
+sheet	col	row	longname	input	keystrokes	comment
+global		filetype	set-option	csv		
+			open-file	-	o	
+-			select-rows		gs	select all rows
+-	group		setcol-expr	group.replace(".csv","")	g=	set current column for selected rows to result of Python expression
+-			select-rows		gs	select all rows
+-	group		setcol-expr	group.replace("paas-pmo-org-spend-","")	g=	set current column for selected rows to result of Python expression
+-	group		setcol-expr	group.replace("ireland-","")	g=	set current column for selected rows to result of Python expression
+-	group		freq-col		Shift+F	open Frequency Table grouped on current column, with aggregations of other columns
+-	group		setcol-expr	group.replace("london-","")	g=	set current column for selected rows to result of Python expression
+-	group		rename-col	date	^	edit name of current column
+-			columns-sheet		Shift+C	open Columns Sheet: edit column properties for current sheet
+-_columns		キBilling month	delete-row		d	delete current row
+-	Org		rename-col	org	^	edit name of current column
+-	Region		rename-col	region	^	edit name of current column
+-	Unique ID		rename-col	guid	^	edit name of current column
+-	Spend in GBP without VAT		rename-col	Spend_GBP_no_VAT	^	edit name of current column
