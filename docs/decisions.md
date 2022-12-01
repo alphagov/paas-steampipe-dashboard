@@ -18,4 +18,4 @@ a log of decisions
 - restrict access to VPN
 - user TLS for front end
 - put data in  a separate data directory and add data/**/*.csv to csv config
-
+- generate the nginx configuration from a template substituting environment variables using envsubst
