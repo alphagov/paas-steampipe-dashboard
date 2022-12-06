@@ -4,10 +4,10 @@
 
 - log into ireland https://login.cloud.service.gov.uk/login with global auditor
 - goto https://admin.cloud.service.gov.uk/platform-admin
-- export for PMO team in csv format for the month in question
+- export for PMO team in csv format for the month in question to ~/Downloads
 - log into london https://admin.london.cloud.service.gov.uk/organisations with global auditor
 - goto https://admin.london.cloud.service.gov.uk/platform-admin 
-- export for PMO team in csv format for the month in question 
+- export for PMO team in csv format for the month in question ~/Downloads
 
 this will put the latest export files in ~/Downloads/
 
